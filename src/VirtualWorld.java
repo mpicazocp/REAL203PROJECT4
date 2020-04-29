@@ -62,7 +62,7 @@ public final class VirtualWorld extends PApplet
         loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
         loadWorld(world, LOAD_FILE_NAME, imageStore);
 
-        scheduleActions(world, scheduler, imageStore);
+        EventScheduler.scheduleActions(world, scheduler, imageStore);
 
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
     }
@@ -70,11 +70,11 @@ public final class VirtualWorld extends PApplet
     public void draw() {
         long time = System.currentTimeMillis();
         if (time >= nextTime) {
-            Functions.updateOnTime(this.scheduler, time);
+            this.scheduler.updateOnTime(time);
             nextTime = time + TIMER_ACTION_PERIOD;
         }
 
-        Functions.drawViewport(view);
+        view.drawViewport();
     }
 
     public void keyPressed() {
@@ -96,13 +96,13 @@ public final class VirtualWorld extends PApplet
                     dx = 1;
                     break;
             }
-            Functions.shiftView(view, dx, dy);
+            view.shiftView( dx, dy);
         }
     }
 
     public static Background createDefaultBackground(ImageStore imageStore) {
         return new Background(DEFAULT_IMAGE_NAME,
-                              Functions.getImageList(imageStore,
+                              imageStore.getImageList(
                                                      DEFAULT_IMAGE_NAME));
     }
 
@@ -140,13 +140,7 @@ public final class VirtualWorld extends PApplet
         }
     }
 
-    public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.entities) {
-            Functions.scheduleActions(entity, scheduler, world, imageStore);
-        }
-    }
+
 
     public static void parseCommandLine(String[] args) {
         for (String arg : args) {
