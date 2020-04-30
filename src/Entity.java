@@ -21,14 +21,14 @@ public final class Entity
 
     private static final String QUAKE_KEY = "quake";
 
-    public EntityKind kind;
-    public String id;
-    public Point position;
-    public List<PImage> images;
-    public int imageIndex;
-    public int resourceLimit;
-    public int resourceCount;
-    public int actionPeriod;
+    private EntityKind kind;
+    private String id;
+    private Point position;
+    private List<PImage> images;
+    private int imageIndex;
+    private int resourceLimit;
+    private int resourceCount;
+    private int actionPeriod;
     private int animationPeriod;
 
     public Entity(
@@ -52,6 +52,38 @@ public final class Entity
         this.animationPeriod = animationPeriod;
     }
 
+    public int getImageIndex(){
+        return this.imageIndex;
+    }
+
+    public List<PImage> getImages(){
+        return this.images;
+    }
+
+    public Point getPosition(){
+        return this.position;
+    }
+
+    public EntityKind getKind(){
+        return this.kind;
+    }
+
+    public int getActionPeriod(){
+        switch (this.kind) {
+            case MINER_FULL:
+            case MINER_NOT_FULL:
+            case ORE_BLOB:
+            case ORE:
+                case VEIN:
+                case QUAKE:
+                return this.actionPeriod;
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("getActionPeriod not supported for %s",
+                                this.kind));
+        }
+    }
+
     public int getAnimationPeriod() {
         switch (this.kind) {
             case MINER_FULL:
@@ -72,13 +104,13 @@ public final class Entity
 
     public PImage getCurrentImage(Object entity) {
         if (entity instanceof Background) {
-            return ((Background)entity).images.get(
+            return ((Background)entity).getImages().get(
                     imageIndex);
         }
-        /*else if (entity instanceof Entity) {
+        else if (entity instanceof Entity) {
             return ((Entity)entity).images.get(((Entity)entity).imageIndex);
         }
-        */else {
+        else {
             throw new UnsupportedOperationException(
                     String.format("getCurrentImage not supported for %s",
                             entity));
@@ -197,7 +229,7 @@ public final class Entity
             Entity ore = Functions.createOre(ORE_ID_PREFIX + this.id, openPt.get(),
                     ORE_CORRUPT_MIN + rand.nextInt(
                             ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
-                    imageStore.getImageList(Functions.ORE_KEY));
+                    imageStore.getImageList(Functions.getOreKey()));
             world.addEntity(ore);
             EventScheduler.scheduleActions(ore, scheduler, world, imageStore);
         }
@@ -209,7 +241,7 @@ public final class Entity
 
 
 
-    public boolean transformNotFull(
+    private boolean transformNotFull(
 
             WorldModel world,
             EventScheduler scheduler,
@@ -233,7 +265,7 @@ public final class Entity
         return false;
     }
 
-    public void transformFull(
+    private void transformFull(
 
             WorldModel world,
             EventScheduler scheduler,
@@ -251,15 +283,15 @@ public final class Entity
         EventScheduler.scheduleActions(miner, scheduler, world, imageStore);
     }
 
-    public Point nextPositionMiner(
+    private Point nextPositionMiner(
              WorldModel world, Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz, this.position.y);
+        int horiz = Integer.signum(destPos.getX() - this.position.getX());
+        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
 
         if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x, this.position.y + vert);
+            int vert = Integer.signum(destPos.getY() - this.position.getY());
+            newPos = new Point(this.position.getX(), this.position.getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos)) {
                 newPos = this.position;
@@ -269,19 +301,19 @@ public final class Entity
         return newPos;
     }
 
-    public Point nextPositionOreBlob(
+    private Point nextPositionOreBlob(
             WorldModel world, Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz, this.position.y);
+        int horiz = Integer.signum(destPos.getX() - this.position.getX());
+        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
 
         Optional<Entity> occupant = world.getOccupant(newPos);
 
         if (horiz == 0 || (occupant.isPresent() && !(occupant.get().kind
                 == EntityKind.ORE)))
         {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x, this.position.y + vert);
+            int vert = Integer.signum(destPos.getY() - this.position.getY());
+            newPos = new Point(this.position.getX(), this.position.getY() + vert);
             occupant = world.getOccupant(newPos);
 
             if (vert == 0 || (occupant.isPresent() && !(occupant.get().kind
@@ -294,7 +326,7 @@ public final class Entity
         return newPos;
     }
 
-    public void moveEntity(WorldModel world, Point pos) {
+    private void moveEntity(WorldModel world, Point pos) {
         Point oldPos = this.position;
         if (world.withinBounds(pos) && !pos.equals(oldPos)) {
             world.setOccupancyCell(oldPos, null);
@@ -304,23 +336,23 @@ public final class Entity
         }
     }
 
-    public void removeEntity(WorldModel world) {
+    private void removeEntity(WorldModel world) {
         removeEntityAt(world, this.position);
     }
 
-    public static void removeEntityAt(WorldModel world, Point pos) {
+    private static void removeEntityAt(WorldModel world, Point pos) {
         if (world.withinBounds(pos) && world.getOccupancyCell(pos) != null) {
             Entity entity = world.getOccupancyCell(pos);
 
             /* This moves the entity just outside of the grid for
              * debugging purposes. */
             entity.position = new Point(-1, -1);
-            world.entities.remove(entity);
+            world.getEntities().remove(entity);
             world.setOccupancyCell(pos, null);
         }
     }
 
-    public static Optional<Entity> nearestEntity(
+    private static Optional<Entity> nearestEntity(
             List<Entity> entities, Point pos)
     {
         if (entities.isEmpty()) {
@@ -343,18 +375,18 @@ public final class Entity
         }
     }
 
-    public static int distanceSquared(Point p1, Point p2) {
-        int deltaX = p1.x - p2.x;
-        int deltaY = p1.y - p2.y;
+    private static int distanceSquared(Point p1, Point p2) {
+        int deltaX = p1.getX() - p2.getX();
+        int deltaY = p1.getY() - p2.getY();
 
         return deltaX * deltaX + deltaY * deltaY;
     }
 
-    public  Optional<Entity> findNearest(
+    private  Optional<Entity> findNearest(
             WorldModel world, Point pos, EntityKind kind)
     {
         List<Entity> ofType = new LinkedList<>();
-        for (Entity entity : world.entities) {
+        for (Entity entity : world.getEntities()) {
             if (entity.kind == kind) {
                 ofType.add(entity);
             }
@@ -363,7 +395,7 @@ public final class Entity
         return nearestEntity(ofType, pos);
     }
 
-    public static boolean moveToNotFull(
+    private static boolean moveToNotFull(
             Entity miner,
             WorldModel world,
             Entity target,
@@ -391,7 +423,7 @@ public final class Entity
         }
     }
 
-    public static boolean moveToFull(
+    private static boolean moveToFull(
             Entity miner,
             WorldModel world,
             Entity target,
@@ -415,7 +447,7 @@ public final class Entity
         }
     }
 
-    public static boolean moveToOreBlob(
+    private static boolean moveToOreBlob(
             Entity blob,
             WorldModel world,
             Entity target,
@@ -443,9 +475,9 @@ public final class Entity
 
 
 
-    public static boolean adjacent(Point p1, Point p2) {
-        return (p1.x == p2.x && Math.abs(p1.y - p2.y) == 1) || (p1.y == p2.y
-                && Math.abs(p1.x - p2.x) == 1);
+    private static boolean adjacent(Point p1, Point p2) {
+        return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
+                && Math.abs(p1.getX() - p2.getX()) == 1);
     }
 
 

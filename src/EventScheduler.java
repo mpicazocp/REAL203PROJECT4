@@ -3,9 +3,9 @@ import java.util.function.Function;
 
 public final class EventScheduler
 {
-    public PriorityQueue<Event> eventQueue;
-    public Map<Entity, List<Event>> pendingEvents;
-    public double timeScale;
+    private PriorityQueue<Event> eventQueue;
+    private Map<Entity, List<Event>> pendingEvents;
+    private double timeScale;
 
     public EventScheduler(double timeScale) {
         this.eventQueue = new PriorityQueue<>(new EventComparator());
@@ -19,11 +19,11 @@ public final class EventScheduler
             WorldModel world,
             ImageStore imageStore)
     {
-        switch (entity.kind) {
+        switch (entity.getKind()) {
             case MINER_FULL:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 scheduleEvent(scheduler, entity,
                         Functions.createAnimationAction(entity, 0),
                         entity.getAnimationPeriod());
@@ -32,7 +32,7 @@ public final class EventScheduler
             case MINER_NOT_FULL:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 scheduleEvent(scheduler, entity,
                         Functions.createAnimationAction(entity, 0),
                         entity.getAnimationPeriod());
@@ -41,13 +41,13 @@ public final class EventScheduler
             case ORE:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 break;
 
             case ORE_BLOB:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 scheduleEvent(scheduler, entity,
                         Functions.createAnimationAction(entity, 0),
                         entity.getAnimationPeriod());
@@ -56,16 +56,16 @@ public final class EventScheduler
             case QUAKE:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 scheduleEvent(scheduler, entity, Functions.createAnimationAction(entity,
-                        Functions.QUAKE_ANIMATION_REPEAT_COUNT),
+                        Functions.getQuakeAnimationRepeatCount()),
                         entity.getAnimationPeriod());
                 break;
 
             case VEIN:
                 scheduleEvent(scheduler, entity,
                         Functions.createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 break;
 
             default:
@@ -95,7 +95,7 @@ public final class EventScheduler
     public static void scheduleActions(
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        for (Entity entity : world.entities) {
+        for (Entity entity : world.getEntities()) {
             scheduleActions(entity, scheduler, world, imageStore);
         }
     }
@@ -115,7 +115,7 @@ public final class EventScheduler
     public void removePendingEvent(
             Event event)
     {
-        List<Event> pending = this.pendingEvents.get(event.entity);
+        List<Event> pending = this.pendingEvents.get(event.getEntity());
 
         if (pending != null) {
             pending.remove(event);
@@ -124,12 +124,12 @@ public final class EventScheduler
 
     public void updateOnTime(long time) {
         while (!this.eventQueue.isEmpty()
-                && this.eventQueue.peek().time < time) {
+                && this.eventQueue.peek().getTime() < time) {
             Event next = this.eventQueue.poll();
 
             this.removePendingEvent(next);
 
-            next.action.executeAction(this);
+            next.getAction().executeAction(this);
         }
     }
 

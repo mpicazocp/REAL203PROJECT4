@@ -1,7 +1,7 @@
 public final class Point
 {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -10,6 +10,14 @@ public final class Point
 
     public String toString() {
         return "(" + x + "," + y + ")";
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public boolean equals(Object other) {
