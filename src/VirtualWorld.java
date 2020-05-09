@@ -62,7 +62,7 @@ public final class VirtualWorld extends PApplet
         loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
         loadWorld(world, LOAD_FILE_NAME, imageStore);
 
-        EventScheduler.scheduleActions(world, scheduler, imageStore);
+        Entity.scheduleActions(world, scheduler, imageStore);
 
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
     }

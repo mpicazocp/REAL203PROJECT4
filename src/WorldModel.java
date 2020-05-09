@@ -105,7 +105,7 @@ public final class WorldModel
             Point pos)
     {
         if (this.withinBounds(pos)) {
-            return Optional.of(Background.getCurrentImage(this.getBackgroundCell(pos)));
+            return Optional.of(this.getBackgroundCell(pos).getCurrentImage());
         }
         else {
             return Optional.empty();
@@ -125,4 +125,29 @@ public final class WorldModel
         return Optional.empty();
     }
 
+    public void moveEntity(Point pos, Entity entity) {
+        Point oldPos = entity.getPosition();
+        if (this.withinBounds(pos) && !pos.equals(oldPos)) {
+            this.setOccupancyCell(oldPos, null);
+            this.removeEntityAt(pos);
+            this.setOccupancyCell(pos, entity);
+            entity.setPosition(pos);
+        }
+    }
+
+    public void removeEntity(Entity entity) {
+        removeEntityAt(entity.getPosition());
+    }
+
+    public void removeEntityAt(Point pos) {
+        if (this.withinBounds(pos) && this.getOccupancyCell(pos) != null) {
+            Entity entity = this.getOccupancyCell(pos);
+
+            /* This moves the entity just outside of the grid for
+             * debugging purposes. */
+            entity.setPosition(new Point(-1, -1));
+            this.getEntities().remove(entity);
+            this.setOccupancyCell(pos, null);
+        }
+    }
 }

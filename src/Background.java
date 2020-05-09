@@ -25,12 +25,11 @@ public final class Background
         return this.imageIndex;
     }
 
-    public static PImage getCurrentImage(Object entity) {
-        if (entity instanceof Background) {
-            return ((Background)entity).images.get(
-                    ((Background)entity).imageIndex);
-        }
-        else if (entity instanceof Entity) {
+    public PImage getCurrentImage() {
+        //if (entity instanceof Background) {
+            return this.getImages().get(imageIndex);
+        //}
+        /*else if (entity instanceof Entity) {
             return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
         }
         else {
@@ -38,6 +37,6 @@ public final class Background
                     String.format("getCurrentImage not supported for %s",
                             entity));
         }
-    }
+   */ }
 
 }

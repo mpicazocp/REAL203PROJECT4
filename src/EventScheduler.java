@@ -13,64 +13,7 @@ public final class EventScheduler
         this.timeScale = timeScale;
     }
 
-    public static void scheduleActions(
-            Entity entity,
-            EventScheduler scheduler,
-            WorldModel world,
-            ImageStore imageStore)
-    {
-        switch (entity.getKind()) {
-            case MINER_FULL:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                scheduleEvent(scheduler, entity,
-                        Functions.createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
 
-            case MINER_NOT_FULL:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                scheduleEvent(scheduler, entity,
-                        Functions.createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case ORE:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                break;
-
-            case ORE_BLOB:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                scheduleEvent(scheduler, entity,
-                        Functions.createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case QUAKE:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                scheduleEvent(scheduler, entity, Functions.createAnimationAction(entity,
-                        Functions.getQuakeAnimationRepeatCount()),
-                        entity.getAnimationPeriod());
-                break;
-
-            case VEIN:
-                scheduleEvent(scheduler, entity,
-                        Functions.createActivityAction(entity, world, imageStore),
-                        entity.getActionPeriod());
-                break;
-
-            default:
-        }
-    }
 
     public static void scheduleEvent(
             EventScheduler scheduler,
@@ -92,13 +35,7 @@ public final class EventScheduler
     }
 
 
-    public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.getEntities()) {
-            scheduleActions(entity, scheduler, world, imageStore);
-        }
-    }
+
 
     public void unscheduleAllEvents(
             Entity entity)
