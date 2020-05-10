@@ -8,11 +8,8 @@ import java.util.Scanner;
 import processing.core.PImage;
 import processing.core.PApplet;
 
-public final class Functions
-{
-    private static final String QUAKE_ID = "quake";
-    private static final int QUAKE_ACTION_PERIOD = 1100;
-    private static final int QUAKE_ANIMATION_PERIOD = 100;
+public final class Functions {
+
     private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
 
     private static final int COLOR_MASK = 0xffffff;
@@ -74,25 +71,22 @@ public final class Functions
     }
 
     public static void loadImages(
-            Scanner in, ImageStore imageStore, PApplet screen)
-    {
+            Scanner in, ImageStore imageStore, PApplet screen) {
         int lineNumber = 0;
         while (in.hasNextLine()) {
             try {
                 processImageLine(imageStore.getImages(), in.nextLine(), screen);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println(
                         String.format("Image format error on line %d",
-                                      lineNumber));
+                                lineNumber));
             }
             lineNumber++;
         }
     }
 
     public static void processImageLine(
-            Map<String, List<PImage>> images, String line, PApplet screen)
-    {
+            Map<String, List<PImage>> images, String line, PApplet screen) {
         String[] attrs = line.split("\\s");
         if (attrs.length >= 2) {
             String key = attrs[0];
@@ -112,8 +106,7 @@ public final class Functions
     }
 
     public static List<PImage> getImages(
-            Map<String, List<PImage>> images, String key)
-    {
+            Map<String, List<PImage>> images, String key) {
         List<PImage> imgs = images.get(key);
         if (imgs == null) {
             imgs = new LinkedList<>();
@@ -140,36 +133,29 @@ public final class Functions
     }
 
 
-
-
-
     public static void load(
-            Scanner in, WorldModel world, ImageStore imageStore)
-    {
+            Scanner in, WorldModel world, ImageStore imageStore) {
         int lineNumber = 0;
         while (in.hasNextLine()) {
             try {
                 if (!processLine(in.nextLine(), world, imageStore)) {
                     System.err.println(String.format("invalid entry on line %d",
-                                                     lineNumber));
+                            lineNumber));
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.err.println(
                         String.format("invalid entry on line %d", lineNumber));
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 System.err.println(
                         String.format("issue on line %d: %s", lineNumber,
-                                      e.getMessage()));
+                                e.getMessage()));
             }
             lineNumber++;
         }
     }
 
     public static boolean processLine(
-            String line, WorldModel world, ImageStore imageStore)
-    {
+            String line, WorldModel world, ImageStore imageStore) {
         String[] properties = line.split("\\s");
         if (properties.length > 0) {
             switch (properties[PROPERTY_KEY]) {
@@ -192,33 +178,31 @@ public final class Functions
     }
 
     public static boolean parseBackground(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == BGND_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
-                                 Integer.parseInt(properties[BGND_ROW]));
+                    Integer.parseInt(properties[BGND_ROW]));
             String id = properties[BGND_ID];
             world.setBackground(pt,
-                          new Background(id, imageStore.getImageList(id)));
+                    new Background(id, imageStore.getImageList(id)));
         }
 
         return properties.length == BGND_NUM_PROPERTIES;
     }
 
     public static boolean parseMiner(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == MINER_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
-                                 Integer.parseInt(properties[MINER_ROW]));
-            Entity entity = createMinerNotFull(properties[MINER_ID],
-                                               Integer.parseInt(
-                                                       properties[MINER_LIMIT]),
-                                               pt, Integer.parseInt(
+                    Integer.parseInt(properties[MINER_ROW]));
+            MinerNotFull entity = Factory.createMinerNotFull(properties[MINER_ID],
+                    Integer.parseInt(
+                            properties[MINER_LIMIT]),
+                    pt, Integer.parseInt(
                             properties[MINER_ACTION_PERIOD]), Integer.parseInt(
                             properties[MINER_ANIMATION_PERIOD]),
-                                               imageStore.getImageList(
-                                                            MINER_KEY));
+                    imageStore.getImageList(
+                            MINER_KEY));
             world.tryAddEntity(entity);
         }
 
@@ -226,14 +210,13 @@ public final class Functions
     }
 
     public static boolean parseObstacle(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == OBSTACLE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[OBSTACLE_COL]),
-                                 Integer.parseInt(properties[OBSTACLE_ROW]));
-            Entity entity = createObstacle(properties[OBSTACLE_ID], pt,
+                    Integer.parseInt(properties[OBSTACLE_ROW]));
+            Obstacle entity = Factory.createObstacle(properties[OBSTACLE_ID], pt,
                     imageStore.getImageList(
-                                                        OBSTACLE_KEY));
+                            OBSTACLE_KEY));
             world.tryAddEntity(entity);
         }
 
@@ -241,12 +224,11 @@ public final class Functions
     }
 
     public static boolean parseOre(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == ORE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
-                                 Integer.parseInt(properties[ORE_ROW]));
-            Entity entity = createOre(properties[ORE_ID], pt, Integer.parseInt(
+                    Integer.parseInt(properties[ORE_ROW]));
+            Ore entity = Factory.createOre(properties[ORE_ID], pt, Integer.parseInt(
                     properties[ORE_ACTION_PERIOD]),
                     imageStore.getImageList(ORE_KEY));
             world.tryAddEntity(entity);
@@ -256,14 +238,13 @@ public final class Functions
     }
 
     public static boolean parseSmith(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == SMITH_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
-                                 Integer.parseInt(properties[SMITH_ROW]));
-            Entity entity = createBlacksmith(properties[SMITH_ID], pt,
+                    Integer.parseInt(properties[SMITH_ROW]));
+            Blacksmith entity = Factory.createBlacksmith(properties[SMITH_ID], pt,
                     imageStore.getImageList(
-                                                          SMITH_KEY));
+                            SMITH_KEY));
             world.tryAddEntity(entity);
         }
 
@@ -271,20 +252,20 @@ public final class Functions
     }
 
     public static boolean parseVein(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == VEIN_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
-                                 Integer.parseInt(properties[VEIN_ROW]));
-            Entity entity = createVein(properties[VEIN_ID], pt,
-                                       Integer.parseInt(
-                                               properties[VEIN_ACTION_PERIOD]),
+                    Integer.parseInt(properties[VEIN_ROW]));
+            Vein entity = Factory.createVein(properties[VEIN_ID], pt,
+                    Integer.parseInt(
+                            properties[VEIN_ACTION_PERIOD]),
                     imageStore.getImageList(VEIN_KEY));
             world.tryAddEntity(entity);
         }
 
         return properties.length == VEIN_NUM_PROPERTIES;
     }
+}
 
 
     /*
@@ -294,74 +275,3 @@ public final class Functions
 
 
 
-    public static Entity createBlacksmith(
-            String id, Point position, List<PImage> images)
-    {
-        return new Entity(EntityKind.BLACKSMITH, id, position, images, 0, 0, 0,
-                          0);
-    }
-
-    public static Entity createMinerFull(
-            String id,
-            int resourceLimit,
-            Point position,
-            int actionPeriod,
-            int animationPeriod,
-            List<PImage> images)
-    {
-        return new Entity(EntityKind.MINER_FULL, id, position, images,
-                          resourceLimit, resourceLimit, actionPeriod,
-                          animationPeriod);
-    }
-
-    public static Entity createMinerNotFull(
-            String id,
-            int resourceLimit,
-            Point position,
-            int actionPeriod,
-            int animationPeriod,
-            List<PImage> images)
-    {
-        return new Entity(EntityKind.MINER_NOT_FULL, id, position, images,
-                          resourceLimit, 0, actionPeriod, animationPeriod);
-    }
-
-    public static Entity createObstacle(
-            String id, Point position, List<PImage> images)
-    {
-        return new Entity(EntityKind.OBSTACLE, id, position, images, 0, 0, 0,
-                          0);
-    }
-
-    public static Entity createOre(
-            String id, Point position, int actionPeriod, List<PImage> images)
-    {
-        return new Entity(EntityKind.ORE, id, position, images, 0, 0,
-                          actionPeriod, 0);
-    }
-
-    public static Entity createOreBlob(
-            String id,
-            Point position,
-            int actionPeriod,
-            int animationPeriod,
-            List<PImage> images)
-    {
-        return new Entity(EntityKind.ORE_BLOB, id, position, images, 0, 0,
-                          actionPeriod, animationPeriod);
-    }
-
-    public static Entity createQuake(
-            Point position, List<PImage> images)
-    {
-        return new Entity(EntityKind.QUAKE, QUAKE_ID, position, images, 0, 0,
-                          QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
-    }
-
-    public static Entity createVein(
-            String id, Point position, int actionPeriod, List<PImage> images)
-    {
-        return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
-                          actionPeriod, 0);
-    }
-}
