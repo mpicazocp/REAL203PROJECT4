@@ -1,13 +1,13 @@
 import processing.core.PImage;
 import java.util.*;
 public class Animation implements Action{
-    private final Entity entity;
+    private final MovingEntity entity;
     private final WorldModel world;
     private final ImageStore imageStore;
     private final int repeatCount;
 
     public Animation(
-            Entity entity,
+            MovingEntity entity,
             WorldModel world,
             ImageStore imageStore,
             int repeatCount)

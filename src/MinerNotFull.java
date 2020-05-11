@@ -1,15 +1,15 @@
 import processing.core.PImage;
 import java.util.*;
-public class MinerNotFull implements Entity {
-    private static final Random rand = new Random();
-    private String id;
+public class MinerNotFull implements MovingEntity {
+    //private static final Random rand = new Random();
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
+    private final int resourceLimit;
     private int resourceCount;
-    private int actionPeriod;
-    private int animationPeriod;
+    private final int actionPeriod;
+    private final int animationPeriod;
 
     public MinerNotFull(
 
@@ -31,9 +31,7 @@ public class MinerNotFull implements Entity {
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex() {
-        return this.imageIndex;
-    }
+    //public int getImageIndex() {return this.imageIndex;}
 
     public List<PImage> getImages() {
         return this.images;
@@ -56,9 +54,7 @@ public class MinerNotFull implements Entity {
         return this.animationPeriod;
     }
 
-    public void nextImage() {
-        imageIndex = (imageIndex + 1) % this.images.size();
-    }
+    //public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() {
         return (this.images.get(imageIndex));
@@ -127,10 +123,10 @@ public class MinerNotFull implements Entity {
             return Optional.empty();
         } else {
             Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.position, pos);
+            int nearestDistance = distanceSquared(nearest.getPosition(), pos);
 
             for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.position, pos);
+                int otherDistance = distanceSquared(other.getPosition(), pos);
 
                 if (otherDistance < nearestDistance) {
                     nearest = other;
@@ -165,14 +161,14 @@ public class MinerNotFull implements Entity {
             WorldModel world,
             Entity target,
             EventScheduler scheduler) {
-        if (adjacent(this.position, target.position)) {
+        if (adjacent(this.position, target.getPosition())) {
             this.resourceCount += 1;
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
 
             return true;
         } else {
-            Point nextPos = this.nextPositionMiner(world, target.position);
+            Point nextPos = this.nextPositionMiner(world, target.getPosition());
 
             if (!this.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);

@@ -1,7 +1,7 @@
 import processing.core.PImage;
 import java.util.*;
-public class MinerFull implements Entity{
-    private static final Random rand = new Random();
+public class MinerFull implements MovingEntity{
+    //private static final Random rand = new Random();
 
 
 
@@ -10,7 +10,7 @@ public class MinerFull implements Entity{
     private final List<PImage> images;
     private int imageIndex;
     private final int resourceLimit;
-    private int resourceCount;
+    //private int resourceCount;
     private final int actionPeriod;
     private final int animationPeriod;
 
@@ -29,14 +29,12 @@ public class MinerFull implements Entity{
         this.images = images;
         this.imageIndex = 0;
         this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
+        //this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex(){
-        return this.imageIndex;
-    }
+    //public int getImageIndex(){return this.imageIndex;}
 
     public List<PImage> getImages(){
         return this.images;
@@ -53,9 +51,7 @@ public class MinerFull implements Entity{
 
     public int getAnimationPeriod() { return this.animationPeriod; }
 
-    public void nextImage() {
-        imageIndex = (imageIndex + 1) % this.images.size();
-    }
+    //public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() { return (this.images.get(imageIndex)); }
 

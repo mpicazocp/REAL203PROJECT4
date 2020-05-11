@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class Quake implements Entity {
+public class Quake implements MovingEntity {
 
     private String id;
     private Point position;

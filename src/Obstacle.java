@@ -2,7 +2,7 @@ import processing.core.PImage;
 import java.util.*;
 
 public class Obstacle implements Entity {
-    private static final Random rand = new Random();
+   // private static final Random rand = new Random();
 
     private String id;
     private Point position;
@@ -31,6 +31,8 @@ public class Obstacle implements Entity {
     public void setPosition(Point p) {
         this.position = p;
     }
+
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore) { }
 
     public String getId() {
         return this.id;

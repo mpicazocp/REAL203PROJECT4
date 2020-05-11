@@ -5,10 +5,10 @@ public class Blacksmith implements Entity{
 
 
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int actionPeriod;
-    private int animationPeriod;
+    private final int actionPeriod;
+    private final int animationPeriod;
 
     public Blacksmith(
             String id,
@@ -27,9 +27,7 @@ public class Blacksmith implements Entity{
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex(){
-        return this.imageIndex;
-    }
+    //public int getImageIndex(){return this.imageIndex;}
 
     public List<PImage> getImages(){
         return this.images;

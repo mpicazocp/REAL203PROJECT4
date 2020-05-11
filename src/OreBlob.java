@@ -1,8 +1,7 @@
 import processing.core.PImage;
 import java.util.*;
 
-public class OreBlob implements Entity {
-    private static final Random rand = new Random();
+public class OreBlob implements MovingEntity {
 
     //private static final String ORE_ID_PREFIX = "ore -- ";
     //private static final int ORE_CORRUPT_MIN = 20000;

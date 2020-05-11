@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class Activity implements Action{
+public class Activity implements Action {
     private final Entity entity;
     private final WorldModel world;
     private final ImageStore imageStore;
@@ -11,9 +11,7 @@ public class Activity implements Action{
             Entity entity,
             WorldModel world,
             ImageStore imageStore,
-            int repeatCount)
-    {
-
+            int repeatCount) {
         this.entity = entity;
         this.world = world;
         this.imageStore = imageStore;
@@ -21,13 +19,12 @@ public class Activity implements Action{
     }
 
     public void executeAction(
-            EventScheduler scheduler)
-    {
-        //switch (this.entity.getKind()) {
-            //case MINER_FULL:
-                this.entity.executeFullActivity(this.world,
-                        this.imageStore, scheduler);
-             /*   break;
+            EventScheduler scheduler) {
+        switch (this.entity.getKind()) {
+        case MINER_FULL:
+        executeActivity(this.world,
+                this.imageStore, scheduler);
+               break;
 
             case MINER_NOT_FULL:
                 this.entity.executeMinerNotFullActivity(this.world,
@@ -59,8 +56,8 @@ public class Activity implements Action{
                         "executeAction not supported for %s",
                         this.entity.getKind()));
         }
-    }*/
-
+    }
 
 
 }
+

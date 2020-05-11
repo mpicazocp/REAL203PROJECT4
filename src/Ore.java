@@ -39,9 +39,7 @@ public class Ore implements Entity{
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex(){
-        return this.imageIndex;
-    }
+    //public int getImageIndex(){return this.imageIndex;}
 
     public List<PImage> getImages(){
         return this.images;
@@ -57,9 +55,7 @@ public class Ore implements Entity{
     public int getActionPeriod(){ return this.actionPeriod; }
 
 
-    public void nextImage() {
-        imageIndex = (imageIndex + 1) % this.images.size();
-    }
+    //public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() { return (this.images.get(imageIndex)); }
 

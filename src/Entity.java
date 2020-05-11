@@ -7,7 +7,7 @@ public interface Entity
 
      void setPosition(Point pos);
 
-
     void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
+
 }
 

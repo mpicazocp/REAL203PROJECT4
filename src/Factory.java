@@ -6,7 +6,7 @@ public class Factory {
     private static final int QUAKE_ACTION_PERIOD = 1100;
     private static final int QUAKE_ANIMATION_PERIOD = 100;
 
-    public static Action createAnimationAction(Entity entity, int repeatCount) {
+    public static Action createAnimationAction(MovingEntity entity, int repeatCount) {
         return new Animation(entity, null, null,
                 repeatCount);
     }
