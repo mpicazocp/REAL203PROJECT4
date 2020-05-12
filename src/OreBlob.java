@@ -66,21 +66,21 @@ public class OreBlob implements MovingEntity {
 
     public PImage getCurrentImage() {return (this.images.get(imageIndex));}
 
-    public void executeOreBlobActivity(
+    public void executeActivity(
 
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
     {
         Optional<Entity> blobTarget =
-                findNearest(world, this.position, Vein.class);
+                findNearest(world, this.getPosition(), Vein.class);
         long nextPeriod = this.actionPeriod;
 
         if (blobTarget.isPresent()) {
-            Point tgtPos = blobTarget.get().position;
+            Point tgtPos = blobTarget.get().getPosition();
 
             if (moveToOreBlob(world, blobTarget.get(), scheduler)) {
-                Entity quake = Factory.createQuake(tgtPos,
+                Quake quake = Factory.createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));
 
                 world.addEntity(quake);
@@ -210,11 +210,5 @@ public class OreBlob implements MovingEntity {
                         this.getAnimationPeriod());
     }
 
-    public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.getEntities()) {
-            entity.scheduleActions(scheduler, world, imageStore);
-        }
-    }
+
 }

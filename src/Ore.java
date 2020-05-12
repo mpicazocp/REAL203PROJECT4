@@ -1,7 +1,7 @@
 
 import processing.core.PImage;
 import java.util.*;
-public class Ore implements Entity{
+public class Ore implements AEntity{
     private static final Random rand = new Random();
 
     private static final String BLOB_KEY = "blob";
@@ -39,7 +39,7 @@ public class Ore implements Entity{
         this.animationPeriod = animationPeriod;
     }
 
-    //public int getImageIndex(){return this.imageIndex;}
+    public int getImageIndex(){return this.imageIndex;}
 
     public List<PImage> getImages(){
         return this.images;
@@ -55,11 +55,11 @@ public class Ore implements Entity{
     public int getActionPeriod(){ return this.actionPeriod; }
 
 
-    //public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
+    public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() { return (this.images.get(imageIndex)); }
 
-    public void executeOreActivity(
+    public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
@@ -77,7 +77,7 @@ public class Ore implements Entity{
                 imageStore.getImageList(BLOB_KEY));
 
         world.addEntity(blob);
-        scheduleActions(scheduler, world, imageStore);
+        blob.scheduleActions(scheduler, world, imageStore);
     }
 
 
@@ -143,11 +143,16 @@ public class Ore implements Entity{
 
     }
 
-    public static void scheduleActions(
+/*    public void scheduleActions(
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         for (Entity entity : world.getEntities()) {
             entity.scheduleActions(scheduler, world, imageStore);
         }
+    }
+*/
+    @Override
+    public int getAnimationPeriod() {
+        return this.animationPeriod;
     }
 }

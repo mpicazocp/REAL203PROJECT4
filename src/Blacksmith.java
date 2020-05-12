@@ -39,20 +39,20 @@ public class Blacksmith implements Entity{
 
     public void setPosition(Point p){this.position = p;}
 
+/*    public void executeActivity(WorldModel world,
+                                ImageStore imageStore,
+                                EventScheduler scheduler){};
 
-    public int getActionPeriod(){
-                return this.actionPeriod;
-    }
+   public int getActionPeriod(){return this.actionPeriod;}
 
-    public int getAnimationPeriod() {
-                return this.animationPeriod;
+    public int getAnimationPeriod() {return this.animationPeriod; }
 
-    }
+
 
     public void nextImage() {
         imageIndex = (imageIndex + 1) % this.images.size();
     }
-
+*/
     public PImage getCurrentImage() { return (this.images.get(imageIndex));}
 
 
@@ -67,7 +67,7 @@ public class Blacksmith implements Entity{
             int nearestDistance = distanceSquared(nearest.getPosition(), pos);
 
             for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.position, pos);
+                int otherDistance = distanceSquared(other.getPosition(), pos);
 
                 if (otherDistance < nearestDistance) {
                     nearest = other;
@@ -99,6 +99,6 @@ public class Blacksmith implements Entity{
         return nearestEntity(ofType, pos);
     }
 
-    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){};
+    //public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){};
 }
 

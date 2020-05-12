@@ -54,13 +54,13 @@ public class MinerNotFull implements MovingEntity {
         return this.animationPeriod;
     }
 
-    //public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
+    public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() {
         return (this.images.get(imageIndex));
     }
 
-    public void executeMinerNotFullActivity(
+    public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
@@ -201,11 +201,5 @@ public class MinerNotFull implements MovingEntity {
 
     }
 
-  public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.getEntities()) {
-            entity.scheduleActions(scheduler, world, imageStore);
-        }
-    }
+
 }

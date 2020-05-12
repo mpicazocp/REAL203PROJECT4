@@ -12,7 +12,7 @@ public class Factory {
     }
 
     public static Action createActivityAction(
-            Entity entity, WorldModel world, ImageStore imageStore)
+            MovingEntity entity, WorldModel world, ImageStore imageStore)
     {
         return new Activity(entity, world, imageStore, 0);
     }
@@ -86,4 +86,3 @@ public class Factory {
                 actionPeriod, 0);
     }
 }
-

@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class Vein implements Entity{
+public class Vein implements AEntity{
     private static final Random rand = new Random();
 
     private static final String ORE_ID_PREFIX = "ore -- ";
@@ -53,6 +53,11 @@ public class Vein implements Entity{
     public int getActionPeriod(){return this.actionPeriod;}
 
 
+    @Override
+    public int getAnimationPeriod() {
+        return this.animationPeriod;
+    }
+
     public void nextImage() {
         imageIndex = (imageIndex + 1) % this.images.size();
     }
@@ -60,7 +65,7 @@ public class Vein implements Entity{
     public PImage getCurrentImage() {return (this.images.get(imageIndex));}
 
 
-    public void executeVeinActivity(
+    public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
@@ -68,7 +73,7 @@ public class Vein implements Entity{
         Optional<Point> openPt = world.findOpenAround(this.position);
 
         if (openPt.isPresent()) {
-            Entity ore = Factory.createOre(ORE_ID_PREFIX + this.id, openPt.get(),
+            Ore ore = Factory.createOre(ORE_ID_PREFIX + this.id, openPt.get(),
                     ORE_CORRUPT_MIN + rand.nextInt(
                             ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
                     imageStore.getImageList(Functions.getOreKey()));
@@ -89,10 +94,10 @@ public class Vein implements Entity{
         }
         else {
             Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.position, pos);
+            int nearestDistance = distanceSquared(nearest.getPosition(), pos);
 
             for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.position, pos);
+                int otherDistance = distanceSquared(other.getPosition(), pos);
 
                 if (otherDistance < nearestDistance) {
                     nearest = other;
@@ -137,13 +142,7 @@ public class Vein implements Entity{
     {
         EventScheduler.scheduleEvent(scheduler, this,
                 Factory.createActivityAction(this, world, imageStore),
-                this.getActionPeriod()); }
+                this.getActionPeriod());
 
-    public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.getEntities()) {
-            entity.scheduleActions(scheduler, world, imageStore);
-        }
     }
 }

@@ -55,7 +55,7 @@ public class Quake implements MovingEntity {
     public PImage getCurrentImage() {return (this.images.get(imageIndex));}
 
 
-    public void executeQuakeActivity(
+    public void executeActivity(
 
             WorldModel world,
             ImageStore imageStore,
@@ -74,10 +74,10 @@ public class Quake implements MovingEntity {
         }
         else {
             Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.position, pos);
+            int nearestDistance = distanceSquared(nearest.getPosition(), pos);
 
             for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.position, pos);
+                int otherDistance = distanceSquared(other.getPosition(), pos);
 
                 if (otherDistance < nearestDistance) {
                     nearest = other;
@@ -127,11 +127,5 @@ public class Quake implements MovingEntity {
                 this.getAnimationPeriod());
     }
 
-    public static void scheduleActions(
-            WorldModel world, EventScheduler scheduler, ImageStore imageStore)
-    {
-        for (Entity entity : world.getEntities()) {
-            entity.scheduleActions(scheduler, world, imageStore);
-        }
-    }
+
 }

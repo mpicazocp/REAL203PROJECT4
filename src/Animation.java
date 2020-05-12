@@ -21,7 +21,7 @@ public class Animation implements Action{
 
 
     public void executeAction(
-            EventScheduler scheduler, Entity entity)
+            EventScheduler scheduler)
     {
         this.entity.nextImage();
 

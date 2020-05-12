@@ -1,13 +1,19 @@
+import processing.core.PImage;
 
 public interface Entity
 {
-    Point position = null;
+    //blacksmith, obstacle
+
 
     Point getPosition();
 
      void setPosition(Point pos);
 
-    void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
+     PImage getCurrentImage();
+
+
+
+
 
 }
 
