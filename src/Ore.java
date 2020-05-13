@@ -11,6 +11,7 @@ public class Ore implements ActionEntity{
     private static final int BLOB_ANIMATION_MAX = 150;
 
 
+
     private final String id;
     private Point position;
     private final List<PImage> images;

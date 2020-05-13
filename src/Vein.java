@@ -46,7 +46,6 @@ public class Vein implements ActionEntity{
 
     public void setPosition(Point p){this.position = p;}
 
-
     public int getActionPeriod(){return this.actionPeriod;}
 
     public PImage getCurrentImage() {return (this.images.get(imageIndex));}
