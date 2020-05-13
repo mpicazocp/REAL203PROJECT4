@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class Vein implements AEntity{
+public class Vein implements ActionEntity{
     private static final Random rand = new Random();
 
     private static final String ORE_ID_PREFIX = "ore -- ";
@@ -35,9 +35,6 @@ public class Vein implements AEntity{
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex(){
-        return this.imageIndex;
-    }
 
     public List<PImage> getImages(){
         return this.images;
@@ -52,18 +49,7 @@ public class Vein implements AEntity{
 
     public int getActionPeriod(){return this.actionPeriod;}
 
-
-    @Override
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
-    }
-
-    public void nextImage() {
-        imageIndex = (imageIndex + 1) % this.images.size();
-    }
-
     public PImage getCurrentImage() {return (this.images.get(imageIndex));}
-
 
     public void executeActivity(
             WorldModel world,
@@ -84,55 +70,6 @@ public class Vein implements AEntity{
         EventScheduler.scheduleEvent(scheduler, this,
                 Factory.createActivityAction(this, world, imageStore),
                 this.actionPeriod);
-    }
-
-    private static Optional<Entity> nearestEntity(
-            List<Entity> entities, Point pos)
-    {
-        if (entities.isEmpty()) {
-            return Optional.empty();
-        }
-        else {
-            Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.getPosition(), pos);
-
-            for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.getPosition(), pos);
-
-                if (otherDistance < nearestDistance) {
-                    nearest = other;
-                    nearestDistance = otherDistance;
-                }
-            }
-
-            return Optional.of(nearest);
-        }
-    }
-
-    private static int distanceSquared(Point p1, Point p2) {
-        int deltaX = p1.getX() - p2.getX();
-        int deltaY = p1.getY() - p2.getY();
-
-        return deltaX * deltaX + deltaY * deltaY;
-    }
-
-    private  Optional<Entity> findNearest(
-            WorldModel world, Point pos, Class c)
-    {
-        List<Entity> ofType = new LinkedList<>();
-        for (Entity entity : world.getEntities()) {
-            if (entity.getClass() == c) {
-                ofType.add(entity);
-            }
-        }
-
-        return nearestEntity(ofType, pos);
-    }
-
-
-    private static boolean adjacent(Point p1, Point p2) {
-        return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
-                && Math.abs(p1.getX() - p2.getX()) == 1);
     }
 
     public void scheduleActions(

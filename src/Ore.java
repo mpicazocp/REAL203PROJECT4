@@ -1,7 +1,7 @@
 
 import processing.core.PImage;
 import java.util.*;
-public class Ore implements AEntity{
+public class Ore implements ActionEntity{
     private static final Random rand = new Random();
 
     private static final String BLOB_KEY = "blob";
@@ -39,8 +39,6 @@ public class Ore implements AEntity{
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex(){return this.imageIndex;}
-
     public List<PImage> getImages(){
         return this.images;
     }
@@ -52,8 +50,6 @@ public class Ore implements AEntity{
     public void setPosition(Point p){this.position = p;}
 
     public int getActionPeriod(){ return this.actionPeriod; }
-
-    public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
     public PImage getCurrentImage() { return (this.images.get(imageIndex)); }
 
@@ -90,8 +86,4 @@ public class Ore implements AEntity{
 
     }
 
-    @Override
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
-    }
 }

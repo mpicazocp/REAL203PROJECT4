@@ -1,8 +1,7 @@
 import processing.core.PImage;
-
 public interface Entity
 {
-    //blacksmith, obstacle
+    //blacksmith, obstacle; Most basic Entity:just sits on-screen
 
     Point getPosition();
 

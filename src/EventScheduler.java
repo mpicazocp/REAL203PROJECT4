@@ -15,7 +15,7 @@ public final class EventScheduler
 
     public static void scheduleEvent(
             EventScheduler scheduler,
-            MovingEntity entity,
+            ActionEntity entity,
             Action action,
             long afterPeriod)
     {

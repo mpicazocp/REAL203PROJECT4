@@ -1,12 +1,12 @@
 
 public class Activity implements Action {
-    private final MovingEntity entity;
+    private final ActionEntity entity;
     private final WorldModel world;
     private final ImageStore imageStore;
     private final int repeatCount;
 
     public Activity(
-            MovingEntity entity,
+            ActionEntity entity,
             WorldModel world,
             ImageStore imageStore,
             int repeatCount) {

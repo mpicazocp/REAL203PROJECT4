@@ -3,13 +3,7 @@ import java.util.*;
 
 public class OreBlob implements MovingEntity {
 
-    //private static final String ORE_ID_PREFIX = "ore -- ";
-    //private static final int ORE_CORRUPT_MIN = 20000;
-    //private static final int ORE_CORRUPT_MAX = 30000;
-
     private static final String QUAKE_KEY = "quake";
-
-
     private String id;
     private Point position;
     private final List<PImage> images;
@@ -121,7 +115,7 @@ public class OreBlob implements MovingEntity {
 
 
 
-    private static Optional<Entity> nearestEntity(
+    public Optional<Entity> nearestEntity(
             List<Entity> entities, Point pos)
     {
         if (entities.isEmpty()) {
@@ -144,14 +138,14 @@ public class OreBlob implements MovingEntity {
         }
     }
 
-    private static int distanceSquared(Point p1, Point p2) {
+    public int distanceSquared(Point p1, Point p2) {
         int deltaX = p1.getX() - p2.getX();
         int deltaY = p1.getY() - p2.getY();
 
         return deltaX * deltaX + deltaY * deltaY;
     }
 
-    private  Optional<Entity> findNearest(
+    public Optional<Entity> findNearest(
             WorldModel world, Point pos, Class c)
     {
         List<Entity> ofType = new LinkedList<>();
@@ -191,7 +185,7 @@ public class OreBlob implements MovingEntity {
         }
     }
 
-    private static boolean adjacent(Point p1, Point p2) {
+    public boolean adjacent(Point p1, Point p2) {
         return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
                 && Math.abs(p1.getX() - p2.getX()) == 1);
     }

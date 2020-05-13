@@ -21,9 +21,5 @@ public final class Background
         return this.id;
     }
 
-    public int imageIndex(){
-        return this.imageIndex;
-    }
-
     public PImage getCurrentImage() { return this.getImages().get(imageIndex); }
 }

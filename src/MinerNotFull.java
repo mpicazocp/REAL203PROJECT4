@@ -29,7 +29,6 @@ public class MinerNotFull implements MovingEntity {
         this.animationPeriod = animationPeriod;
     }
 
-    public int getImageIndex() {return this.imageIndex;}
 
     public List<PImage> getImages() {
         return this.images;
@@ -114,7 +113,7 @@ public class MinerNotFull implements MovingEntity {
         return newPos;
     }
 
-    private static Optional<Entity> nearestEntity(
+    public Optional<Entity> nearestEntity(
             List<Entity> entities, Point pos) {
         if (entities.isEmpty()) {
             return Optional.empty();
@@ -135,14 +134,14 @@ public class MinerNotFull implements MovingEntity {
         }
     }
 
-    private static int distanceSquared(Point p1, Point p2) {
+    public int distanceSquared(Point p1, Point p2) {
         int deltaX = p1.getX() - p2.getX();
         int deltaY = p1.getY() - p2.getY();
 
         return deltaX * deltaX + deltaY * deltaY;
     }
 
-    private Optional<Entity> findNearest(
+    public Optional<Entity> findNearest(
             WorldModel world, Point pos, Class c) {
         List<Entity> ofType = new LinkedList<>();
         for (Entity entity : world.getEntities()) {
@@ -180,7 +179,7 @@ public class MinerNotFull implements MovingEntity {
     }
 
 
-    private static boolean adjacent(Point p1, Point p2) {
+    public boolean adjacent(Point p1, Point p2) {
         return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
                 && Math.abs(p1.getX() - p2.getX()) == 1);
     }
