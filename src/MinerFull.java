@@ -1,16 +1,12 @@
 import processing.core.PImage;
 import java.util.*;
 public class MinerFull implements MovingEntity{
-    //private static final Random rand = new Random();
-
-
-
     private final String id;
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
     private final int resourceLimit;
-    //private int resourceCount;
+    private int resourceCount;
     private final int actionPeriod;
     private final int animationPeriod;
 
@@ -29,12 +25,12 @@ public class MinerFull implements MovingEntity{
         this.images = images;
         this.imageIndex = 0;
         this.resourceLimit = resourceLimit;
-        //this.resourceCount = resourceCount;
+        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }
 
-    //public int getImageIndex(){return this.imageIndex;}
+    public int getImageIndex(){return this.imageIndex;}
 
     public List<PImage> getImages(){
         return this.images;
@@ -46,11 +42,9 @@ public class MinerFull implements MovingEntity{
 
     public void setPosition(Point p){this.position = p;}
 
-
     public int getActionPeriod(){ return this.actionPeriod; }
 
     public int getAnimationPeriod() { return this.animationPeriod; }
-
 
     public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
 
@@ -112,8 +106,6 @@ public class MinerFull implements MovingEntity{
         return newPos;
     }
 
-
-
     private static Optional<Entity> nearestEntity(
             List<Entity> entities, Point pos)
     {
@@ -157,7 +149,6 @@ public class MinerFull implements MovingEntity{
         return nearestEntity(ofType, pos);
     }
 
-
     private boolean moveToFull(
 
             WorldModel world,
@@ -182,8 +173,6 @@ public class MinerFull implements MovingEntity{
         }
     }
 
-
-
     private static boolean adjacent(Point p1, Point p2) {
         return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
                 && Math.abs(p1.getX() - p2.getX()) == 1);
@@ -194,7 +183,6 @@ public class MinerFull implements MovingEntity{
             WorldModel world,
             ImageStore imageStore)
     {
-
                 EventScheduler.scheduleEvent(scheduler, this,
                         Factory.createActivityAction(this, world, imageStore),
                         this.getActionPeriod());
@@ -202,6 +190,4 @@ public class MinerFull implements MovingEntity{
                         Factory.createAnimationAction(this, 0),
                         this.getAnimationPeriod());
     }
-
-
 }

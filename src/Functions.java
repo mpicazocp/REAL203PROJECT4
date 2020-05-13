@@ -1,10 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
 import java.util.Scanner;
-
 import processing.core.PImage;
 import processing.core.PApplet;
 
@@ -115,10 +112,6 @@ public final class Functions {
         return imgs;
     }
 
-    /*
-      Called with color for which alpha should be set and alpha value.
-      setAlpha(img, color(255, 255, 255), 0));
-    */
     public static void setAlpha(PImage img, int maskColor, int alpha) {
         int alphaValue = alpha << 24;
         int nonAlpha = maskColor & COLOR_MASK;
@@ -266,12 +259,3 @@ public final class Functions {
         return properties.length == VEIN_NUM_PROPERTIES;
     }
 }
-
-
-    /*
-       Assumes that there is no entity currently occupying the
-       intended destination cell.
-    */
-
-
-

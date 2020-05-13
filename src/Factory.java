@@ -6,22 +6,18 @@ public class Factory {
     private static final int QUAKE_ACTION_PERIOD = 1100;
     private static final int QUAKE_ANIMATION_PERIOD = 100;
 
-    public static Action createAnimationAction(MovingEntity entity, int repeatCount) {
+    public static Animation createAnimationAction(MovingEntity entity, int repeatCount) {
         return new Animation(entity, null, null,
                 repeatCount);
     }
 
-    public static Action createActivityAction(
+    public static Activity createActivityAction(
             MovingEntity entity, WorldModel world, ImageStore imageStore)
     {
         return new Activity(entity, world, imageStore, 0);
     }
-    public static Blacksmith createBlacksmith(
-            String id, Point position, List<PImage> images)
-    {
-        return new Blacksmith(id, position, images, 0, 0, 0,
-                0);
-    }
+    public static Blacksmith createBlacksmith(String id, Point position, List<PImage> images)
+    { return new Blacksmith(id, position, images, 0, 0, 0, 0); }
 
     public static MinerFull createMinerFull(
             String id,
@@ -30,11 +26,7 @@ public class Factory {
             int actionPeriod,
             int animationPeriod,
             List<PImage> images)
-    {
-        return new MinerFull( id, position, images,
-                resourceLimit, resourceLimit, actionPeriod,
-                animationPeriod);
-    }
+    { return new MinerFull( id, position, images, resourceLimit, resourceLimit, actionPeriod, animationPeriod); }
 
     public static MinerNotFull createMinerNotFull(
             String id,

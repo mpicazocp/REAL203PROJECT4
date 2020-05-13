@@ -1,5 +1,3 @@
-import processing.core.PImage;
-import java.util.*;
 public class Animation implements Action{
     private final MovingEntity entity;
     private final WorldModel world;
@@ -12,7 +10,6 @@ public class Animation implements Action{
             ImageStore imageStore,
             int repeatCount)
     {
-
         this.entity = entity;
         this.world = world;
         this.imageStore = imageStore;
@@ -33,6 +30,4 @@ public class Animation implements Action{
                     this.entity.getAnimationPeriod());
         }
     }
-
-
 }

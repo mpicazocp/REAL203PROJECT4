@@ -14,4 +14,6 @@ public interface MovingEntity extends Entity{
 
     void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
 
+    int getActionPeriod();
+
 }

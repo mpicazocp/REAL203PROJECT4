@@ -7,8 +7,8 @@ import processing.core.PImage;
 
 public final class ImageStore
 {
-    private Map<String, List<PImage>> images;
-    private List<PImage> defaultImages;
+    private final Map<String, List<PImage>> images;
+    private final List<PImage> defaultImages;
 
     public ImageStore(PImage defaultImage) {
         this.images = new HashMap<>();

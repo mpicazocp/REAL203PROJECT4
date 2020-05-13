@@ -3,17 +3,15 @@ import java.util.function.Function;
 
 public final class EventScheduler
 {
-    private PriorityQueue<Event> eventQueue;
-    private Map<Entity, List<Event>> pendingEvents;
-    private double timeScale;
+    private final PriorityQueue<Event> eventQueue;
+    private final Map<Entity, List<Event>> pendingEvents;
+    private final double timeScale;
 
     public EventScheduler(double timeScale) {
         this.eventQueue = new PriorityQueue<>(new EventComparator());
         this.pendingEvents = new HashMap<>();
         this.timeScale = timeScale;
     }
-
-
 
     public static void scheduleEvent(
             EventScheduler scheduler,
@@ -33,9 +31,6 @@ public final class EventScheduler
         pending.add(event);
         scheduler.pendingEvents.put(entity, pending);
     }
-
-
-
 
     public void unscheduleAllEvents(
             Entity entity)
@@ -69,5 +64,4 @@ public final class EventScheduler
             next.getAction().executeAction(this);
         }
     }
-
 }

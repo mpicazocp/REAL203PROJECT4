@@ -1,7 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
 public class MinerNotFull implements MovingEntity {
-    //private static final Random rand = new Random();
     private final String id;
     private Point position;
     private final List<PImage> images;
@@ -12,7 +11,6 @@ public class MinerNotFull implements MovingEntity {
     private final int animationPeriod;
 
     public MinerNotFull(
-
             String id,
             Point position,
             List<PImage> images,
@@ -31,7 +29,7 @@ public class MinerNotFull implements MovingEntity {
         this.animationPeriod = animationPeriod;
     }
 
-    //public int getImageIndex() {return this.imageIndex;}
+    public int getImageIndex() {return this.imageIndex;}
 
     public List<PImage> getImages() {
         return this.images;
@@ -44,7 +42,6 @@ public class MinerNotFull implements MovingEntity {
     public void setPosition(Point p) {
         this.position = p;
     }
-
 
     public int getActionPeriod() {
         return this.actionPeriod;
@@ -200,6 +197,4 @@ public class MinerNotFull implements MovingEntity {
                 this.getAnimationPeriod());
 
     }
-
-
 }
