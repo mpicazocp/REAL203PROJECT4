@@ -17,7 +17,7 @@ public class Factory {
         return new Activity(entity, world, imageStore, 0);
     }
     public static Blacksmith createBlacksmith(String id, Point position, List<PImage> images)
-    { return new Blacksmith(id, position, images, 0, 0, 0, 0); }
+    { return new Blacksmith( position, images, 0); }
 
     public static MinerFull createMinerFull(
             String id,
@@ -43,7 +43,7 @@ public class Factory {
     public static Obstacle createObstacle(
             String id, Point position, List<PImage> images)
     {
-        return new Obstacle(id, position, images);
+        return new Obstacle( position, images, 0);
     }
 
     public static Ore createOre(

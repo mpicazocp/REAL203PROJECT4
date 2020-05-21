@@ -1,14 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class MinerNotFull implements MovingEntity {
-    private final String id;
-    private Point position;
-    private final List<PImage> images;
-    private int imageIndex;
-    private final int resourceLimit;
-    private int resourceCount;
-    private final int actionPeriod;
-    private final int animationPeriod;
+public class MinerNotFull extends MovingEntity {
 
     public MinerNotFull(
             String id,
@@ -19,57 +11,24 @@ public class MinerNotFull implements MovingEntity {
             int actionPeriod,
             int animationPeriod) {
 
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
+        super(id, position, images, resourceLimit, resourceCount, actionPeriod, animationPeriod);
     }
 
-
-    public List<PImage> getImages() {
-        return this.images;
-    }
-
-    public Point getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Point p) {
-        this.position = p;
-    }
-
-    public int getActionPeriod() {
-        return this.actionPeriod;
-    }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
-    }
-
-    public void nextImage() {imageIndex = (imageIndex + 1) % this.images.size();}
-
-    public PImage getCurrentImage() {
-        return (this.images.get(imageIndex));
-    }
 
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
         Optional<Entity> notFullTarget =
-                findNearest(world, this.position, Ore.class);
+                findNearest(world, super.getPosition(), Ore.class);
 
-        if (!notFullTarget.isPresent() || !this.moveToNotFull(world,
+        if (!notFullTarget.isPresent() || !this.moveTo(world,
                 notFullTarget.get(),
                 scheduler)
                 || !this.transformNotFull(world, scheduler, imageStore)) {
             EventScheduler.scheduleEvent(scheduler, this,
                     Factory.createActivityAction(this, world, imageStore),
-                    this.actionPeriod);
+                    super.getActionPeriod());
         }
     }
 
@@ -78,11 +37,11 @@ public class MinerNotFull implements MovingEntity {
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore) {
-        if (this.resourceCount >= this.resourceLimit) {
-            MinerFull miner = Factory.createMinerFull(this.id, this.resourceLimit,
-                    this.position, this.actionPeriod,
-                    this.animationPeriod,
-                    this.images);
+        if (super.getResourceCount() >= super.getResourceLimit()) {
+            MinerFull miner = Factory.createMinerFull(super.getId(), super.getResourceLimit(),
+                    super.getPosition(), super.getActionPeriod(),
+                    super.getAnimationPeriod(),
+                    super.getImages());
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
@@ -96,77 +55,38 @@ public class MinerNotFull implements MovingEntity {
         return false;
     }
 
-    private Point nextPositionMiner(
-            WorldModel world, Point destPos) {
-        int horiz = Integer.signum(destPos.getX() - this.position.getX());
-        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
+    public Point nextPosition(
+            WorldModel world, Point destPos)
+    {
+        int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
+        Point newPos = new Point(super.getPosition().getX() + horiz, super.getPosition().getY());
 
         if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.getY() - this.position.getY());
-            newPos = new Point(this.position.getX(), this.position.getY() + vert);
+            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
+            newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos)) {
-                newPos = this.position;
+                newPos = super.getPosition();
             }
         }
 
         return newPos;
     }
 
-    public Optional<Entity> nearestEntity(
-            List<Entity> entities, Point pos) {
-        if (entities.isEmpty()) {
-            return Optional.empty();
-        } else {
-            Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.getPosition(), pos);
-
-            for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.getPosition(), pos);
-
-                if (otherDistance < nearestDistance) {
-                    nearest = other;
-                    nearestDistance = otherDistance;
-                }
-            }
-
-            return Optional.of(nearest);
-        }
-    }
-
-    public int distanceSquared(Point p1, Point p2) {
-        int deltaX = p1.getX() - p2.getX();
-        int deltaY = p1.getY() - p2.getY();
-
-        return deltaX * deltaX + deltaY * deltaY;
-    }
-
-    public Optional<Entity> findNearest(
-            WorldModel world, Point pos, Class c) {
-        List<Entity> ofType = new LinkedList<>();
-        for (Entity entity : world.getEntities()) {
-            if (entity.getClass() == c) {
-                ofType.add(entity);
-            }
-        }
-
-        return nearestEntity(ofType, pos);
-    }
-
-    private boolean moveToNotFull(
+     boolean moveTo(
             WorldModel world,
             Entity target,
             EventScheduler scheduler) {
-        if (adjacent(this.position, target.getPosition())) {
-            this.resourceCount += 1;
+        if (adjacent(super.getPosition(), target.getPosition())) {
+            super.setResourceCount(super.getResourceCount() + 1);
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
 
             return true;
         } else {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
-            if (!this.position.equals(nextPos)) {
+            if (!super.getPosition().equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
                     scheduler.unscheduleAllEvents(occupant.get());
@@ -179,21 +99,4 @@ public class MinerNotFull implements MovingEntity {
     }
 
 
-    public boolean adjacent(Point p1, Point p2) {
-        return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) || (p1.getY() == p2.getY()
-                && Math.abs(p1.getX() - p2.getX()) == 1);
-    }
-
-    public void scheduleActions(
-            EventScheduler scheduler,
-            WorldModel world,
-            ImageStore imageStore) {
-        EventScheduler.scheduleEvent(scheduler, this,
-                Factory.createActivityAction(this, world, imageStore),
-                this.getActionPeriod());
-        EventScheduler.scheduleEvent(scheduler, this,
-                Factory.createAnimationAction(this, 0),
-                this.getAnimationPeriod());
-
-    }
 }

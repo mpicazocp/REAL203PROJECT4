@@ -1,16 +1,45 @@
 import processing.core.PImage;
 import java.util.List;
 
-public interface ActionEntity extends Entity {
+public abstract class ActionEntity extends Entity {
     //vein, ore; Have calls to Action but no animation. These entities appear on-screen but do not change at all.
 
-    void scheduleActions(EventScheduler scheduler, WorldModel world,  ImageStore imageStore);
+    private final String id;
+    private final int resourceLimit;
+    private int resourceCount;
+    private final int actionPeriod;
 
-    List<PImage> getImages();
 
-    int getActionPeriod();
+    public ActionEntity(String id, Point position, List<PImage> images, int resourceLimit, int resourceCount, int actionPeriod, int animationPeriod ){
+        super(position, images, animationPeriod);
+        this.id = id;
+        this.resourceLimit = resourceLimit;
+        this.resourceCount = resourceCount;
+        this.actionPeriod = actionPeriod;
+    }
+    public void scheduleActions(
+            EventScheduler scheduler,
+            WorldModel world,
+            ImageStore imageStore)
+    {
+        EventScheduler.scheduleEvent(scheduler, this,
+                Factory.createActivityAction(this, world, imageStore),
+                this.getActionPeriod());
 
-     void executeActivity(
+    }
+    public int getAnimationPeriod() {return super.getAnimationPeriod();}
+
+    public int getResourceLimit(){return this.resourceLimit;}
+
+    public int getResourceCount(){return this.resourceCount;}
+
+    public void setResourceCount(int i){this.resourceCount = i;}
+
+    public String getId(){return this.id;}
+
+    public int getActionPeriod(){return this.actionPeriod;}
+
+     abstract void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler);
