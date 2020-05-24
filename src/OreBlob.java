@@ -6,6 +6,7 @@ public class OreBlob extends MovingEntity {
     private static final String QUAKE_KEY = "quake";
 
 
+
     public OreBlob(
 
             String id,
@@ -56,15 +57,13 @@ public class OreBlob extends MovingEntity {
 
         Optional<Entity> occupant = world.getOccupant(newPos);
 
-        if (horiz == 0 || (occupant.isPresent() && !(occupant.get().getClass()
-                == Ore.class)))
+        if (horiz == 0 || (occupant.isPresent() && !(occupant.get().getClass() == Ore.class)))
         {
              int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
             newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
             occupant = world.getOccupant(newPos);
 
-            if (vert == 0 || (occupant.isPresent() && !(occupant.get().getClass()
-                    == Ore.class)))
+            if (vert == 0 || (occupant.isPresent() && !(occupant.get().getClass() == Ore.class)))
             {
                 newPos = super.getPosition();
             }

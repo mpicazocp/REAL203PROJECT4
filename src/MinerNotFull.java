@@ -23,8 +23,7 @@ public class MinerNotFull extends MovingEntity {
                 findNearest(world, super.getPosition(), Ore.class);
 
         if (!notFullTarget.isPresent() || !this.moveTo(world,
-                notFullTarget.get(),
-                scheduler)
+                notFullTarget.get(), scheduler)
                 || !this.transformNotFull(world, scheduler, imageStore)) {
             EventScheduler.scheduleEvent(scheduler, this,
                     Factory.createActivityAction(this, world, imageStore),
