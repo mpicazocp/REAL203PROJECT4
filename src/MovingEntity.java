@@ -7,6 +7,7 @@ import java.util.Optional;
 public abstract class MovingEntity extends AnimatedNotMovingEntity{
     //miner, minerNF, OreBlob ; Fully functional Entities
 
+
     public MovingEntity(
     String id,
     Point position,
@@ -76,13 +77,33 @@ public abstract class MovingEntity extends AnimatedNotMovingEntity{
                 this.getActionPeriod());
         EventScheduler.scheduleEvent(scheduler, this,
                 Factory.createAnimationAction(this, 0),
-                this.getAnimationPeriod());
+                super.getAnimationPeriod());
 
     }
 
-    abstract Point nextPosition(WorldModel world, Point desPos);
+    protected abstract Point nextPosition(WorldModel world, Point desPos);
 
-    abstract boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler);
+    protected abstract void moveHelper(WorldModel world, Entity target, EventScheduler scheduler);
 
-    abstract void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
+    public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler){
+        if (adjacent(super.getPosition(), target.getPosition())) {
+            moveHelper( world,  target,  scheduler);
+            return true;
+        } else {
+            Point nextPos = this.nextPosition(world, target.getPosition());
+            if (!super.getPosition().equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                if (occupant.isPresent()) {
+                    scheduler.unscheduleAllEvents(occupant.get());
+                }
+
+                world.moveEntity(nextPos, this);
+            }
+            return false;
+        }
+    }
+
+    protected abstract void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
+
+
 }

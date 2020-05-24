@@ -20,7 +20,7 @@ public class OreBlob extends MovingEntity {
     }
 
 
-    public void executeActivity(
+    protected void executeActivity(
 
             WorldModel world,
             ImageStore imageStore,
@@ -48,7 +48,7 @@ public class OreBlob extends MovingEntity {
                 nextPeriod);
     }
 
-    public Point nextPosition(
+    protected Point nextPosition(
             WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
@@ -59,7 +59,7 @@ public class OreBlob extends MovingEntity {
         if (horiz == 0 || (occupant.isPresent() && !(occupant.get().getClass()
                 == Ore.class)))
         {
-            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
+             int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
             newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
             occupant = world.getOccupant(newPos);
 
@@ -73,31 +73,10 @@ public class OreBlob extends MovingEntity {
         return newPos;
     }
 
+    protected void moveHelper(WorldModel world, Entity target, EventScheduler scheduler){
+        world.removeEntity(target);
+        scheduler.unscheduleAllEvents(target);}
 
-     boolean moveTo(
-            WorldModel world,
-            Entity target,
-            EventScheduler scheduler)
-    {
-        if (adjacent(this.getPosition(), target.getPosition())) {
-            world.removeEntity(target);
-            scheduler.unscheduleAllEvents(target);
-            return true;
-        }
-        else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
-
-            if (!this.getPosition().equals(nextPos)) {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(nextPos, this);
-            }
-            return false;
-        }
-    }
 
 
 

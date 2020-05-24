@@ -10,8 +10,8 @@ public abstract class ActionEntity extends Entity {
     private final int actionPeriod;
 
 
-    public ActionEntity(String id, Point position, List<PImage> images, int resourceLimit, int resourceCount, int actionPeriod, int animationPeriod ){
-        super(position, images, animationPeriod);
+    public ActionEntity(String id, Point position, List<PImage> images, int resourceLimit, int resourceCount, int actionPeriod){
+        super(position, images);
         this.id = id;
         this.resourceLimit = resourceLimit;
         this.resourceCount = resourceCount;
@@ -27,7 +27,6 @@ public abstract class ActionEntity extends Entity {
                 this.getActionPeriod());
 
     }
-    public int getAnimationPeriod() {return super.getAnimationPeriod();}
 
     public int getResourceLimit(){return this.resourceLimit;}
 
@@ -39,7 +38,7 @@ public abstract class ActionEntity extends Entity {
 
     public int getActionPeriod(){return this.actionPeriod;}
 
-     abstract void executeActivity(
+    protected abstract void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler);

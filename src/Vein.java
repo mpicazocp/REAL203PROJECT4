@@ -2,7 +2,6 @@ import processing.core.PImage;
 import java.util.*;
 public class Vein extends ActionEntity {
     private static final Random rand = new Random();
-
     private static final String ORE_ID_PREFIX = "ore -- ";
     private static final int ORE_CORRUPT_MIN = 20000;
     private static final int ORE_CORRUPT_MAX = 30000;
@@ -16,7 +15,7 @@ public class Vein extends ActionEntity {
             int actionPeriod,
             int animationPeriod)
     {
-        super( id, position,  images,  resourceLimit,  resourceCount,  actionPeriod,  animationPeriod );
+        super( id, position,  images,  resourceLimit,  resourceCount,  actionPeriod);
     }
 
 

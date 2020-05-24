@@ -8,32 +8,29 @@ public abstract class Entity
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
-    private final int animationPeriod;
 
-    public Entity(Point position, List<PImage> images, int animationPeriod) {
+    public Entity(Point position, List<PImage> images) {
         this.position = position;
         this.images = images;
-        this.imageIndex = 0;
-        this.animationPeriod = animationPeriod;
+        imageIndex = 0;
     }
 
-     public List<PImage> getImages(){
+    public PImage getCurrentImage() {
+        return (getImages().get(imageIndex));
+    }
+
+    public void setImageIndex(int index){ imageIndex = index;}
+
+    public int getImageIndex() { return imageIndex; }
+
+    public List<PImage> getImages(){
         return this.images;
     }
-
-    public void setImageIndex(int index){ this.imageIndex = index;}
-
-    public int getImageIndex(){ return this.imageIndex;}
-
-    public int getAnimationPeriod() {return this.animationPeriod;}
 
      Point getPosition(){return this.position;}
 
      void setPosition(Point pos){this.position = pos;};
 
-     public PImage getCurrentImage() {
-        return (this.images.get(imageIndex));
-    }
 
 }
 

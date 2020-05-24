@@ -15,7 +15,7 @@ public class MinerNotFull extends MovingEntity {
     }
 
 
-    public void executeActivity(
+    protected void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
@@ -55,7 +55,7 @@ public class MinerNotFull extends MovingEntity {
         return false;
     }
 
-    public Point nextPosition(
+    protected Point nextPosition(
             WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
@@ -73,30 +73,11 @@ public class MinerNotFull extends MovingEntity {
         return newPos;
     }
 
-     boolean moveTo(
-            WorldModel world,
-            Entity target,
-            EventScheduler scheduler) {
-        if (adjacent(super.getPosition(), target.getPosition())) {
-            super.setResourceCount(super.getResourceCount() + 1);
-            world.removeEntity(target);
-            scheduler.unscheduleAllEvents(target);
+    protected void moveHelper(WorldModel world, Entity target, EventScheduler scheduler){
+        super.setResourceCount(super.getResourceCount() + 1);
+        world.removeEntity(target);
+        scheduler.unscheduleAllEvents(target);}
 
-            return true;
-        } else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
-
-            if (!super.getPosition().equals(nextPos)) {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(nextPos, this);
-            }
-            return false;
-        }
-    }
 
 
 }

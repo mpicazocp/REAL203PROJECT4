@@ -3,7 +3,6 @@ import processing.core.PImage;
 import java.util.*;
 public class Ore extends ActionEntity{
     private static final Random rand = new Random();
-
     private static final String BLOB_KEY = "blob";
     private static final String BLOB_ID_SUFFIX = " -- blob";
     private static final int BLOB_PERIOD_SCALE = 4;
@@ -12,7 +11,7 @@ public class Ore extends ActionEntity{
 
     public Ore(String id, Point position, List<PImage> images, int resourceLimit, int resourceCount, int actionPeriod, int animationPeriod)
     {
-        super( id, position,  images,  resourceLimit,  resourceCount,  actionPeriod,  animationPeriod );
+        super( id, position,  images,  resourceLimit,  resourceCount,  actionPeriod);
     }
 
     public void executeActivity(
