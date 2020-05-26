@@ -4,8 +4,8 @@ import processing.core.PImage;
 
 public final class Background
 {
-    private String id;
-    private List<PImage> images;
+    private final String id;
+    private final List<PImage> images;
     private int imageIndex;
 
     public Background(String id, List<PImage> images) {

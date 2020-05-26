@@ -27,16 +27,16 @@ public final class WorldView
     }
 
     public void shiftView(int colDelta, int rowDelta) {
-        int newCol = clamp(this.viewport.getCol() + colDelta, 0,
+        int newCol = clamp(this.viewport.getCol() + colDelta,
                 this.world.getNumCols() - this.viewport.getNumCols());
-        int newRow = clamp(this.viewport.getRow() + rowDelta, 0,
+        int newRow = clamp(this.viewport.getRow() + rowDelta,
                 this.world.getNumRows() - this.viewport.getNumRows());
 
         this.viewport.shift(newCol, newRow);
     }
 
-    private static int clamp(int value, int low, int high) {
-        return Math.min(high, Math.max(value, low));
+    private static int clamp(int value, int high) {
+        return Math.min(high, Math.max(value, 0));
     }
 
     public void drawViewport() {

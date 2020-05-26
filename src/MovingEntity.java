@@ -95,9 +95,7 @@ public abstract class MovingEntity extends AnimatedNotMovingEntity{
             Point nextPos = this.nextPosition(world, target.getPosition());
             if (!super.getPosition().equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
+                occupant.ifPresent(scheduler::unscheduleAllEvents);
 
                 world.moveEntity(nextPos, this);
             }

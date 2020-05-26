@@ -29,7 +29,7 @@ public abstract class Entity
 
      Point getPosition(){return this.position;}
 
-     void setPosition(Point pos){this.position = pos;};
+     void setPosition(Point pos){this.position = pos;}
 
 
 }

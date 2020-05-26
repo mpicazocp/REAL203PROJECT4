@@ -7,14 +7,13 @@ public class Factory {
     private static final int QUAKE_ANIMATION_PERIOD = 100;
 
     public static Animation createAnimationAction(AnimatedNotMovingEntity entity, int repeatCount) {
-        return new Animation(entity, null, null,
-                repeatCount);
+        return new Animation(entity, repeatCount);
     }
 
     public static Activity createActivityAction(
             ActionEntity entity, WorldModel world, ImageStore imageStore)
     {
-        return new Activity(entity, world, imageStore, 0);
+        return new Activity(entity, world, imageStore);
     }
     public static Blacksmith createBlacksmith(String id, Point position, List<PImage> images)
     { return new Blacksmith( position, images); }

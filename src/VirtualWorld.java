@@ -59,8 +59,8 @@ public final class VirtualWorld extends PApplet
                                   TILE_HEIGHT);
         this.scheduler = new EventScheduler(timeScale);
 
-        loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
-        loadWorld(world, LOAD_FILE_NAME, imageStore);
+        loadImages(imageStore, this);
+        loadWorld(world, imageStore);
         //make if statement
         scheduleActions( world, scheduler,imageStore);
 
@@ -131,10 +131,10 @@ public final class VirtualWorld extends PApplet
     }
 
     private static void loadImages(
-            String filename, ImageStore imageStore, PApplet screen)
+            ImageStore imageStore, PApplet screen)
     {
         try {
-            Scanner in = new Scanner(new File(filename));
+            Scanner in = new Scanner(new File(VirtualWorld.IMAGE_LIST_FILE_NAME));
             Functions.loadImages(in, imageStore, screen);
         }
         catch (FileNotFoundException e) {
@@ -143,10 +143,10 @@ public final class VirtualWorld extends PApplet
     }
 
     private static void loadWorld(
-            WorldModel world, String filename, ImageStore imageStore)
+            WorldModel world, ImageStore imageStore)
     {
         try {
-            Scanner in = new Scanner(new File(filename));
+            Scanner in = new Scanner(new File(VirtualWorld.LOAD_FILE_NAME));
             Functions.load(in, world, imageStore);
         }
         catch (FileNotFoundException e) {
