@@ -22,13 +22,8 @@ public abstract class AnimatedNotMovingEntity extends ActionEntity{
             WorldModel world,
             ImageStore imageStore)
     {
-        EventScheduler.scheduleEvent(scheduler,  this,
-                Factory.createActivityAction( this, world, imageStore),
-                this.getActionPeriod());
-
+        super.scheduleActions(scheduler, world, imageStore);
         scheduleActionsHelp(scheduler, world, imageStore);
-
-
     }
 
     public void scheduleActionsHelp(EventScheduler scheduler,

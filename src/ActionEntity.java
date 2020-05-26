@@ -28,6 +28,7 @@ public abstract class ActionEntity extends Entity {
 
     }
 
+
     public int getResourceLimit(){return this.resourceLimit;}
 
     public int getResourceCount(){return this.resourceCount;}
