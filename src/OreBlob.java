@@ -72,9 +72,11 @@ public class OreBlob extends MovingEntity {
         return newPos;
     }
 
-    protected void moveHelper(WorldModel world, Entity target, EventScheduler scheduler){
+    protected boolean moveHelper(WorldModel world, Entity target, EventScheduler scheduler){
         world.removeEntity(target);
-        scheduler.unscheduleAllEvents(target);}
+        scheduler.unscheduleAllEvents(target);
+        return true;
+    }
 
 
 

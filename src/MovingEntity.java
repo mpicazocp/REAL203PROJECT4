@@ -67,28 +67,30 @@ public abstract class MovingEntity extends AnimatedNotMovingEntity{
             return Optional.of(nearest);
         }
     }
-
+//call super then add for each specific
     public void scheduleActions(
             EventScheduler scheduler,
             WorldModel world,
             ImageStore imageStore) {
-        EventScheduler.scheduleEvent(scheduler, this,
-                Factory.createActivityAction(this, world, imageStore),
-                this.getActionPeriod());
+        super.scheduleActions(scheduler, world, imageStore);
+        scheduleActionsHelp(scheduler, world, imageStore);
+    }
+
+    public void scheduleActionsHelp(EventScheduler scheduler,
+                                    WorldModel world,
+                                    ImageStore imageStore){
         EventScheduler.scheduleEvent(scheduler, this,
                 Factory.createAnimationAction(this, 0),
                 super.getAnimationPeriod());
-
     }
 
     protected abstract Point nextPosition(WorldModel world, Point desPos);
 
-    protected abstract void moveHelper(WorldModel world, Entity target, EventScheduler scheduler);
+    protected abstract boolean moveHelper(WorldModel world, Entity target, EventScheduler scheduler);
 
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler){
         if (adjacent(super.getPosition(), target.getPosition())) {
-            moveHelper( world,  target,  scheduler);
-            return true;
+            return moveHelper( world,  target,  scheduler);
         } else {
             Point nextPos = this.nextPosition(world, target.getPosition());
             if (!super.getPosition().equals(nextPos)) {

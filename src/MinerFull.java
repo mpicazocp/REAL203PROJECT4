@@ -72,6 +72,6 @@ public class MinerFull extends MovingEntity{
         return newPos;
     }
 
-    protected void moveHelper(WorldModel world, Entity target, EventScheduler scheuler){}
+    protected boolean moveHelper(WorldModel world, Entity target, EventScheduler scheuler){return true;}
 
 }

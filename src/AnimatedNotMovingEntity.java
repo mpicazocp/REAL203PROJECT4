@@ -25,9 +25,18 @@ public abstract class AnimatedNotMovingEntity extends ActionEntity{
         EventScheduler.scheduleEvent(scheduler,  this,
                 Factory.createActivityAction( this, world, imageStore),
                 this.getActionPeriod());
+
+        scheduleActionsHelp(scheduler, world, imageStore);
+
+
+    }
+
+    public void scheduleActionsHelp(EventScheduler scheduler,
+                                    WorldModel world,
+                                    ImageStore imageStore){
         EventScheduler.scheduleEvent(scheduler, this,
                 Factory.createAnimationAction(this,
-                Functions.getQuakeAnimationRepeatCount()),
+                        Functions.getQuakeAnimationRepeatCount()),
                 this.getAnimationPeriod());
     }
 
