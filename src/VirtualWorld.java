@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 import processing.core.*;
@@ -14,6 +15,7 @@ public final class VirtualWorld extends PApplet
     private static final int TILE_HEIGHT = 32;
     private static final int WORLD_WIDTH_SCALE = 2;
     private static final int WORLD_HEIGHT_SCALE = 2;
+
 
     private static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
     private static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
@@ -172,8 +174,25 @@ public final class VirtualWorld extends PApplet
         }
     }
 
+    public void mousePressed(){
+        Point pressed = mouseToPoint(mouseX, mouseY);
+
+        Alien alien = Factory.createMinerNotFull(properties[ALIEN_ID],
+                    Integer.parseInt(properties[MINER_LIMIT]), pressed, Integer.parseInt(
+                            properties[ALIEN_ACTION_PERIOD]), Integer.parseInt(
+                            properties[ALIEN_ANIMATION_PERIOD]),
+                    imageStore.getImageList(
+                            ALIEN_KEY));
+            world.tryAddEntity(alien);
+
+
+}
+    private Point mouseToPoint(int x, int y){
+        return new Point(x/TILE_WIDTH, y/TILE_HEIGHT);}
+
     public static void main(String[] args) {
         parseCommandLine(args);
         PApplet.main(VirtualWorld.class);
+
     }
 }

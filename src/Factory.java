@@ -15,6 +15,18 @@ public class Factory {
     {
         return new Activity(entity, world, imageStore);
     }
+
+    public static Alien createAlien(
+            String id,
+            Point position,
+            int actionPeriod,
+            int animationPeriod,
+            List<PImage> images)
+    {
+        return new Alien(id, position, images, 0, 0,
+                actionPeriod, animationPeriod);
+    }
+
     public static Blacksmith createBlacksmith(String id, Point position, List<PImage> images)
     { return new Blacksmith( position, images); }
 
