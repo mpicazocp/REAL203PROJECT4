@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class MinerFull extends MovingEntity{
+public class MinerFull extends Miner{
 
     public MinerFull(
 
@@ -73,5 +73,7 @@ public class MinerFull extends MovingEntity{
     }
 
     protected boolean moveHelper(WorldModel world, Entity target, EventScheduler scheuler){return true;}
+
+
 
 }

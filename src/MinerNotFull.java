@@ -1,6 +1,6 @@
 import processing.core.PImage;
 import java.util.*;
-public class MinerNotFull extends MovingEntity {
+public class MinerNotFull extends Miner {
 
     public MinerNotFull(
             String id,
