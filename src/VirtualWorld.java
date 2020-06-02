@@ -196,7 +196,7 @@ public final class VirtualWorld extends PApplet
                     //freak miner!
                     Optional<Entity> entity = world.getOccupant(new Point(x,y));
                     if(entity.getClass() == Miner.class){
-                        ((Miner)entity).react();
+                        ((Miner)entity).react(imageStore);
                     }
                     //change background
                     Background cell = new Background("crater", imageStore.getImageList("crater"));
