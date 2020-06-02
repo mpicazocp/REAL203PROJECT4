@@ -35,4 +35,7 @@ public abstract class AnimatedNotMovingEntity extends ActionEntity{
                 this.getAnimationPeriod());
     }
 
+    protected void setPanicImages(List<PImage> images){
+        super.setPanicImages(images);
+    }
 }

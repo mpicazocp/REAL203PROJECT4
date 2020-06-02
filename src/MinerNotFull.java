@@ -19,15 +19,27 @@ public class MinerNotFull extends Miner {
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
-        Optional<Entity> notFullTarget =
-                findNearest(world, super.getPosition(), Ore.class);
+        if(!isFREAKING_OUT()){
+            Optional<Entity> notFullTarget =
+                    findNearest(world, super.getPosition(), Ore.class);
 
-        if (!notFullTarget.isPresent() || !this.moveTo(world,
-                notFullTarget.get(), scheduler)
-                || !this.transformNotFull(world, scheduler, imageStore)) {
-            EventScheduler.scheduleEvent(scheduler, this,
-                    Factory.createActivityAction(this, world, imageStore),
-                    super.getActionPeriod());
+            if (!notFullTarget.isPresent() || !this.moveTo(world,
+                    notFullTarget.get(), scheduler)
+                    || !this.transformNotFull(world, scheduler, imageStore)) {
+                EventScheduler.scheduleEvent(scheduler, this,
+                        Factory.createActivityAction(this, world, imageStore),
+                        super.getActionPeriod());
+        } else {
+            Point fleePoint = super.getPosition();
+            if(fleePoint.getX() < fleePoint.getY()){
+                fleePoint = new Point(0, fleePoint.getY());
+            } else {
+                fleePoint = new Point(fleePoint.getX(), 0);
+            }
+
+            this.moveTo(world,fleePoint,scheduler);
+        }
+
         }
     }
 

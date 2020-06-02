@@ -6,7 +6,7 @@ public abstract class Entity
 {
     //blacksmith, obstacle; Most basic Entity:just sits on-screen
     private Point position;
-    private final List<PImage> images;
+    private List<PImage> images;
     private int imageIndex;
 
     public Entity(Point position, List<PImage> images) {
@@ -31,6 +31,9 @@ public abstract class Entity
 
      void setPosition(Point pos){this.position = pos;}
 
-
+    protected void setPanicImages(List<PImage> images){
+       this.images = images;
+       this.imageIndex = 0;
+    }
 }
 
