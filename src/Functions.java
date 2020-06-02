@@ -235,10 +235,9 @@ public final class Functions {
         if (properties.length == SMITH_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
                     Integer.parseInt(properties[SMITH_ROW]));
-                    properties[SMITH_ID], pt,
-                    imageStore.getImageList(
-                            SMITH_KEY));
-            Blacksmith entity = Factory.createBlacksmith(
+
+            Blacksmith entity = Factory.createBlacksmith(properties[SMITH_ID], pt,
+                    imageStore.getImageList(SMITH_KEY));
             world.tryAddEntity(entity);
         }
 
