@@ -101,6 +101,13 @@ public final class WorldModel
         this.addEntity(entity);
     }
 
+    public void forceAddEntity(Entity entity){
+        if (this.isOccupied(entity.getPosition())) {
+            this.removeEntityAt(entity.getPosition());
+        }
+        this.addEntity(entity);
+    }
+
     public Optional<PImage> getBackgroundImage(
             Point pos)
     {

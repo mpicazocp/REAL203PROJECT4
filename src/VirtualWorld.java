@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import processing.core.*;
@@ -34,6 +35,13 @@ public final class VirtualWorld extends PApplet
     private static final double FAST_SCALE = 0.5;
     private static final double FASTER_SCALE = 0.25;
     private static final double FASTEST_SCALE = 0.10;
+
+    private static final String ALIEN_ID = "alien";
+    private static final String ALIEN_KEY = "alien";
+    private static final int ALIEN_ACTION_PERIOD = 666;
+    private static final int ALIEN_ANIMATION_PERIOD = 100;
+
+    private static final int CRATER_RADIUS = 2;
 
     private static double timeScale = 1.0;
 
@@ -177,16 +185,27 @@ public final class VirtualWorld extends PApplet
     public void mousePressed(){
         Point pressed = mouseToPoint(mouseX, mouseY);
 
-        Alien alien = Factory.createMinerNotFull(properties[ALIEN_ID],
-                    Integer.parseInt(properties[MINER_LIMIT]), pressed, Integer.parseInt(
-                            properties[ALIEN_ACTION_PERIOD]), Integer.parseInt(
-                            properties[ALIEN_ANIMATION_PERIOD]),
-                    imageStore.getImageList(
-                            ALIEN_KEY));
-            world.tryAddEntity(alien);
-
-
+        Alien alien = Factory.createAlien(ALIEN_ID, pressed, ALIEN_ACTION_PERIOD,
+                ALIEN_ANIMATION_PERIOD, imageStore.getImageList(ALIEN_KEY));
+        world.forceAddEntity(alien);
+        alien.scheduleActions(scheduler, world,imageStore);
+        //freak out all the miners nearby, update the backgrounds
+        for(int y = pressed.getY() - CRATER_RADIUS; abs(pressed.getY() - y) <= CRATER_RADIUS; y++){
+            for(int x = pressed.getX() - CRATER_RADIUS; abs(pressed.getX() - x) <= CRATER_RADIUS; x++){
+                if(sqrt(pow(x,2) + pow(y,2)) <= CRATER_RADIUS && x > 0 && y > 0){
+                    //freak miner!
+                    Optional<Entity> entity = world.getOccupant(new Point(x,y));
+                    if(entity.getClass() == Miner.class){
+                        ((Miner)entity).react();
+                    }
+                    //change background
+                    Background cell = new Background("crater", imageStore.getImageList("crater"));
+                    world.setBackgroundCell(new Point(x,y), cell);
+                }
+            }
+        }
 }
+
     private Point mouseToPoint(int x, int y){
         return new Point(x/TILE_WIDTH, y/TILE_HEIGHT);}
 
