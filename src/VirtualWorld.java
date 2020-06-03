@@ -42,6 +42,7 @@ public final class VirtualWorld extends PApplet
     private static final int ALIEN_ANIMATION_PERIOD = 100;
 
     private static final int CRATER_RADIUS = 2;
+    private static final int SCARE_RADIUS = 7;
 
     private static double timeScale = 1.0;
 
@@ -192,22 +193,32 @@ public final class VirtualWorld extends PApplet
         //freak out all the miners nearby, update the backgrounds
         for(int y = pressed.getY() - CRATER_RADIUS; abs(pressed.getY() - y) <= CRATER_RADIUS; y++){
             for(int x = pressed.getX() - CRATER_RADIUS; abs(pressed.getX() - x) <= CRATER_RADIUS; x++){
-                if(sqrt(pow(x,2) + pow(y,2)) <= CRATER_RADIUS && x > 0 && y > 0){
-                    //freak miner!
-                    Optional<Entity> entity = world.getOccupant(new Point(x,y));
-                    if(entity.getClass() == Miner.class){
-                        ((Miner)entity).react();
-                    }
+                if(sqrt(pow(x - pressed.getX(),2) + pow(y - pressed.getY(),2)) <= CRATER_RADIUS && x >= 0 && y >= 0){
                     //change background
                     Background cell = new Background("crater", imageStore.getImageList("crater"));
                     world.setBackgroundCell(new Point(x,y), cell);
                 }
             }
         }
+
+        //freak out all the miners nearby
+        for(int y = pressed.getY() - SCARE_RADIUS; abs(pressed.getY() - y) <= SCARE_RADIUS; y++){
+            for(int x = pressed.getX() - SCARE_RADIUS; abs(pressed.getX() - x) <= SCARE_RADIUS; x++){
+                if(sqrt(pow(x - pressed.getX(),2) + pow(y - pressed.getY(),2)) <= SCARE_RADIUS && x >= 0 && y >= 0){
+
+                    //freak miner!
+                    Optional<Entity> entity = world.getOccupant(new Point(x,y));
+                    if(!entity.isEmpty() && (entity.get().getClass().equals(MinerNotFull.class) || entity.get().getClass().equals(MinerFull.class))){
+                        ((Miner)entity.get()).react(imageStore);
+                    }
+
+                }
+            }
+        }
 }
 
     private Point mouseToPoint(int x, int y){
-        return new Point(x/TILE_WIDTH, y/TILE_HEIGHT);}
+        return new Point((x /TILE_WIDTH) + view.getX(), (y /TILE_HEIGHT) + view.getY());}
 
     public static void main(String[] args) {
         parseCommandLine(args);

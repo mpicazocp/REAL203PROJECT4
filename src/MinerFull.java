@@ -21,19 +21,32 @@ public class MinerFull extends Miner{
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Optional<Entity> fullTarget =
-                findNearest(world, super.getPosition(), Blacksmith.class);
+        if(!isFREAKING_OUT()){
+            Optional<Entity> fullTarget =
+                    findNearest(world, super.getPosition(), Blacksmith.class);
 
-        if (fullTarget.isPresent() && this.moveTo(world,
-                fullTarget.get(), scheduler))
-        {
-            this.transformFull(world, scheduler, imageStore);
+            if (fullTarget.isPresent() && this.moveTo(world,
+                    fullTarget.get(), scheduler))
+            {
+                this.transformFull(world, scheduler, imageStore);
+            }
+            else {
+                EventScheduler.scheduleEvent(scheduler, this,
+                        Factory.createActivityAction(this, world, imageStore),
+                        super.getActionPeriod());
+            }
+        } else {
+            Point fleePoint = super.getPosition();
+            if(fleePoint.getX() < fleePoint.getY()){
+                fleePoint = new Point(0, fleePoint.getY());
+            } else {
+                fleePoint = new Point(fleePoint.getX(), 0);
+            }
+
+            this.moveTo(world,fleePoint,scheduler);
+
         }
-        else {
-            EventScheduler.scheduleEvent(scheduler, this,
-                    Factory.createActivityAction(this, world, imageStore),
-                    super.getActionPeriod());
-        }
+
     }
 
     private void transformFull(

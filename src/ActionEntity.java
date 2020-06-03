@@ -43,4 +43,8 @@ public abstract class ActionEntity extends Entity {
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler);
+
+    protected void setPanicImages(List<PImage> images){
+        super.setPanicImages(images);
+    }
 }

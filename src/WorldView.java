@@ -10,6 +10,8 @@ public final class WorldView
     private final int tileWidth;
     private final int tileHeight;
     private final Viewport viewport;
+    private int x = 0;
+    private int y = 0;
 
     public WorldView(
             int numRows,
@@ -31,6 +33,13 @@ public final class WorldView
                 this.world.getNumCols() - this.viewport.getNumCols());
         int newRow = clamp(this.viewport.getRow() + rowDelta,
                 this.world.getNumRows() - this.viewport.getNumRows());
+
+        if (newCol != viewport.getCol()){
+            x += colDelta;
+        }
+        if (newRow != viewport.getRow()){
+            y += rowDelta;
+        }
 
         this.viewport.shift(newCol, newRow);
     }
@@ -71,4 +80,11 @@ public final class WorldView
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

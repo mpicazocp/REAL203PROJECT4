@@ -149,7 +149,6 @@ public final class WorldModel
     public void removeEntityAt(Point pos) {
         if (this.withinBounds(pos) && this.getOccupancyCell(pos) != null) {
             Entity entity = this.getOccupancyCell(pos);
-
             /* This moves the entity just outside of the grid for
              * debugging purposes. */
             entity.setPosition(new Point(-1, -1));

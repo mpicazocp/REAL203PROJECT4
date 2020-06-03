@@ -103,7 +103,26 @@ public abstract class MovingEntity extends AnimatedNotMovingEntity{
         }
     }
 
+    public boolean moveTo(WorldModel world, Point target, EventScheduler scheduler){
+        if (adjacent(super.getPosition(), target)) {
+            world.removeEntityAt(this.getPosition());
+            return true;
+        } else {
+            Point nextPos = this.nextPosition(world, target);
+            if (!super.getPosition().equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                occupant.ifPresent(scheduler::unscheduleAllEvents);
+
+                world.moveEntity(nextPos, this);
+            }
+            return false;
+        }
+    }
+
+
     protected abstract void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
 
-
+    protected void setPanicImages(List<PImage> images){
+        super.setPanicImages(images);
+    }
 }
