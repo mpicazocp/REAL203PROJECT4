@@ -23,14 +23,15 @@ quake images/quake3.bmp 255 255 255 0
 quake images/quake4.bmp 255 255 255 0
 quake images/quake5.bmp 255 255 255 0
 quake images/quake6.bmp 255 255 255 0
-alien images/wyvern1.bmp 225 255 255 0
-alien images/wyvern2.bmp 225 255 255 0
-alien images/wyvern3.bmp 225 255 255 0
-alien images/wyvern4.bmp 225 255 255 0
-alien images/wyvern5.bmp 225 255 255 0
-alien images/wyvern6.bmp 225 255 255 0
-alien images/wyvern7.bmp 225 255 255 0
-alien images/wyvern8.bmp 225 255 255 0
+alien images/banana1.bmp 225 255 255 0
+alien images/banana2.bmp 225 255 255 0
+alien images/banana3.bmp 225 255 255 0
+alien images/banana4.bmp 225 255 255 0
+alien images/banana5.bmp 225 255 255 0
+alien images/banana6.bmp 225 255 255 0
+alien images/banana7.bmp 225 255 255 0
+alien images/banana8.bmp 225 255 255 0
+
 ore images/ore.bmp 201 26 26 0
 obstacle images/obstacle.bmp
 grass images/grass.bmp
