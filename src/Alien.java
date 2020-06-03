@@ -1,4 +1,6 @@
 import processing.core.PImage;
+
+import javax.swing.text.html.Option;
 import java.util.*;
 
 public class Alien extends MovingEntity {
@@ -25,14 +27,32 @@ public class Alien extends MovingEntity {
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Optional<Entity> minerTarget =
-                findNearest(world, this.getPosition(), MovingEntity.class);
+        Optional<Entity> minerNFTarget =
+                findNearest(world, this.getPosition(), MinerNotFull.class);
+        Optional<Entity> minerFTarget =
+                findNearest(world, this.getPosition(), MinerFull.class);
+
+        Optional<Entity> minerTarget = Optional.empty();
+
+        if(minerFTarget.isPresent() && minerNFTarget.isPresent()){
+            if(super.distanceSquared(this.getPosition(),minerFTarget.get().getPosition()) >
+                    super.distanceSquared(this.getPosition(),minerNFTarget.get().getPosition())){
+                minerTarget = minerNFTarget;
+            } else {
+                minerTarget = minerFTarget;
+            }
+        }else if (minerFTarget.isPresent()){
+            minerTarget = minerFTarget;
+        }else if(minerNFTarget.isPresent()){
+            minerTarget = minerNFTarget;
+        }
+
         long nextPeriod = super.getActionPeriod();
 
         if (minerTarget.isPresent()) {
             Point tgtPos = minerTarget.get().getPosition();
-
             if (moveTo(world, minerTarget.get(), scheduler)) {
+                nextPeriod += super.getActionPeriod();
                 world.removeEntityAt(tgtPos);
             }
         }
@@ -60,7 +80,6 @@ public class Alien extends MovingEntity {
                 newPos = super.getPosition();
             }
         }
-
         return newPos;
     }
 
@@ -69,10 +88,5 @@ public class Alien extends MovingEntity {
         scheduler.unscheduleAllEvents(target);
         return true;
     }
-
-
-
-
-
 
 }

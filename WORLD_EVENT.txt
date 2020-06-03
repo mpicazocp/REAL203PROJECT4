@@ -1,12 +1,12 @@
 Project 4 Wesley Curl and Elizabeth Picazo //FIND CODE AT ELIZABETH PICAZO'S GITHUB (mpicazocp)
 1. Our event is triggered by clicking the mouse. The event then happens at the Point location where the mouse is located.
 
-2. When the event is triggered 'aliens' picture dby wyvern images are spawn along with a crater around it.
+2. When the event is triggered 'aliens' picture by wyvern images are spawn along with a crater around it.
 
 3. Miners are the targeted by the crater. When a miner comes within the radius of a crater it comes to 'freak out'. The
 miner image will change to a miner with its hands up and 'run' (move quicker) away.
 
-4. The new entity 'Alien' will spawn at the middle of a crater. Its purpose is to.....
+4. The new entity 'Alien' will spawn at the middle of a crater. Its purpose is to chase miners and eat them! AHHH!
 
 5. Wesley Curl: changed the background, created the crater and worked on the Alien
    Elizabeth: worked on the alien, developed the changing images and UML.

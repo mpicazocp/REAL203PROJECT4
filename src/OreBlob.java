@@ -33,7 +33,6 @@ public class OreBlob extends MovingEntity {
 
         if (blobTarget.isPresent()) {
             Point tgtPos = blobTarget.get().getPosition();
-
             if (moveTo(world, blobTarget.get(), scheduler)) {
                 Quake quake = Factory.createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));

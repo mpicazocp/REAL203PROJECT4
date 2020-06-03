@@ -44,7 +44,12 @@ public class MinerFull extends Miner{
             }
 
             this.moveTo(world,fleePoint,scheduler);
-
+            if(getPosition().equals(fleePoint)){
+                world.removeEntityAt(getPosition());
+            } else {
+                EventScheduler.scheduleEvent(scheduler, this,
+                        Factory.createActivityAction(this, world, imageStore), super.getActionPeriod());
+            }
         }
 
     }
