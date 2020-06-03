@@ -31,7 +31,7 @@ public abstract class Entity
 
      void setPosition(Point pos){this.position = pos;}
 
-    protected void setPanicImages(List<PImage> images){
+    protected void setPanic(List<PImage> images){
        this.images = images;
        this.imageIndex = 0;
     }

@@ -122,7 +122,7 @@ public abstract class MovingEntity extends AnimatedNotMovingEntity{
 
     protected abstract void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
 
-    protected void setPanicImages(List<PImage> images){
-        super.setPanicImages(images);
+    protected void setPanic(List<PImage> images){
+        super.setPanic(images);
     }
 }

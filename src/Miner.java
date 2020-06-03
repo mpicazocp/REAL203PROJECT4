@@ -23,7 +23,7 @@ public abstract class Miner extends MovingEntity {
         FREAKING_OUT = true;
 
         List<PImage> newImages = imageStore.getImageList("madMiner");
-        super.setPanicImages(newImages);
+        super.setPanic(newImages);
     }
 
     public boolean isFREAKING_OUT() {
