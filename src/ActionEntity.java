@@ -7,7 +7,7 @@ public abstract class ActionEntity extends Entity {
     private final String id;
     private final int resourceLimit;
     private int resourceCount;
-    private final int actionPeriod;
+    private int actionPeriod;
 
 
     public ActionEntity(String id, Point position, List<PImage> images, int resourceLimit, int resourceCount, int actionPeriod){
@@ -44,7 +44,8 @@ public abstract class ActionEntity extends Entity {
             ImageStore imageStore,
             EventScheduler scheduler);
 
-    protected void setPanicImages(List<PImage> images){
-        super.setPanicImages(images);
+    protected void setPanic(List<PImage> images){
+        super.setPanic(images);
+        actionPeriod /= 2;
     }
 }
