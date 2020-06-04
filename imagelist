@@ -16,7 +16,15 @@ miner images/miner2.bmp 252 252 252 0
 miner images/miner3.bmp 252 252 252 0
 miner images/miner4.bmp 252 252 252 0
 miner images/miner5.bmp 252 252 252 0
-madMiner images/panic.bmp 252 252 252 0
+madMiner images/pickle1.bmp 252 252 252 0
+madMiner images/pickle2.bmp 0 0 0 0
+madMiner images/pickle3.bmp 0 0 0 0
+madMiner images/pickle4.bmp 0 0 0 0
+madMiner images/pickle5.bmp 0 0 0 0
+madMiner images/pickle6.bmp 0 0 0 0
+madMiner images/pickle7.bmp 0 0 0 0
+madMiner images/pickle8.bmp 0 0 0 0
+madMiner images/pickle9.bmp 0 0 0 0
 quake images/quake1.bmp 255 255 255 0
 quake images/quake2.bmp 255 255 255 0
 quake images/quake3.bmp 255 255 255 0
