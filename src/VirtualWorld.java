@@ -190,10 +190,10 @@ public final class VirtualWorld extends PApplet
                 ALIEN_ANIMATION_PERIOD, imageStore.getImageList(ALIEN_KEY));
         world.forceAddEntity(alien);
         alien.scheduleActions(scheduler, world,imageStore);
-        //freak out all the miners nearby, update the backgrounds
+        //update the backgrounds
         for(int y = pressed.getY() - CRATER_RADIUS; abs(pressed.getY() - y) <= CRATER_RADIUS; y++){
             for(int x = pressed.getX() - CRATER_RADIUS; abs(pressed.getX() - x) <= CRATER_RADIUS; x++){
-                if(sqrt(pow(x - pressed.getX(),2) + pow(y - pressed.getY(),2)) <= CRATER_RADIUS && x >= 0 && y >= 0){
+                if(sqrt(pow(x - pressed.getX(),2) + pow(y - pressed.getY(),2)) <= CRATER_RADIUS && x >= 0 && y >= 0 && x < 30 && y < 30){
                     //change background
                     Background cell = new Background("crater", imageStore.getImageList("crater"));
                     world.setBackgroundCell(new Point(x,y), cell);
